@@ -26,7 +26,7 @@ class RouterServlet extends IntelligentOsmRouterStack {
       val path = new AlgoDijkstra(1, 10).getPath
       println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
       contentType = "application/vnd.google-earth.kml+xml"
-      KmlComposer.write(path, "output.kml")
+      KmlWriter.write(path, "output.kml")
     //}
   }
 

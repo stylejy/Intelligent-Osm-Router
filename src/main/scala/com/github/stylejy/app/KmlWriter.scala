@@ -20,11 +20,11 @@ package com.github.stylejy.app
 import java.io.{File, FileInputStream, DataInputStream}
 import scala.collection.mutable.ArrayBuffer
 import scala.xml.XML
-/**
-  * Created by stylejy on 19/06/2017.
-  */
-object KmlComposer {
 
+/**
+  * Created by stylejy on 20/06/2017.
+  */
+object KmlWriter {
   val latlon = ArrayBuffer[LatLon]()
   case class LatLon(lat:Float, lon:Float)
   val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
@@ -63,6 +63,5 @@ object KmlComposer {
         }
       </Document>
     </kml>
-
   }
 }
