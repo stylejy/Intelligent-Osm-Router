@@ -11,5 +11,9 @@ object MainController {
   def run(): Unit = {
     OsmParser.run
     Graph.load
+
+    //For test
+    /*val path = new AlgoDijkstra(20, 5).getPath
+    KmlWriter.write(path, "output")*/
   }
 }

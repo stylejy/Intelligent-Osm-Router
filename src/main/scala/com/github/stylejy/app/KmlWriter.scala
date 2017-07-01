@@ -34,8 +34,10 @@ object KmlWriter {
   def write(path: List[Int], file: String) {
 
     val kml = build(path)
+    val kmlLine = buildLine(path)
     print("writing kml..")
-    XML.save(file, kml, "UTF-8", true, null)
+    XML.save(file+"default.kml", kml, "UTF-8", true, null)
+    XML.save(file+"Line.kml", kmlLine, "UTF-8", true, null)
     println(" Done.")
 
   }
@@ -61,6 +63,34 @@ object KmlWriter {
           </Point>
         </Placemark>
         }
+      </Document>
+    </kml>
+  }
+
+  def buildLine(path: List[Int]) = {
+
+    <kml xmlns="http://www.opengis.net/kml/2.2">
+      <Document>
+        <Style id="yellowLineStyle">
+          <LineStyle>
+            <width>4</width>
+            <color>ff33ccff</color>
+          </LineStyle>
+        </Style>
+        <Placemark>
+          <styleUrl>#yellowLineStyle</styleUrl>
+          <LineString>
+
+            <coordinates>
+          { for (node <- path) yield
+
+              "\t\t\t\t"+{{ latlon(node).lon }+","+{ latlon(node).lat }}+"\n\n"
+
+          }
+            </coordinates>
+
+          </LineString>
+        </Placemark>
       </Document>
     </kml>
   }

@@ -56,7 +56,6 @@ object OsmParser {
     val lat2 = toRadians(to.lat)
     val lon2 = toRadians(to.lon)
 
-    println("from " + from)
 
     ((6378.388f * acos(
       sin(lat1) * sin(lat2)
@@ -103,10 +102,10 @@ object OsmParser {
           case "trunk" => 50
           case "road" => 50
           case "path" => 10
-          //case "steps" => 0
-          //case "footway" => 10
+          case "steps" => 0
+          case "footway" => 10
           //case "cycleway" => 20
-          //case "pedestrian" => 10
+          case "pedestrian" => 10
           //case (hw:String) if (!hw.equals("")) => println("highway "+hw); 10
           case _ => 0
         }
@@ -141,6 +140,7 @@ object OsmParser {
       if (e.from != id) {
         id = e.from
         node_out.writeInt(edge_buf.size)
+        println("\n\n\nedge_buf.size : "+edge_buf.size)
         osm_id_map(id) = osm_id_map.size
         nodes.get(e.from) match {
           case Some(node) =>
@@ -152,6 +152,7 @@ object OsmParser {
       dist_out.writeInt(e.dist)   // write dists
       edge_buf += e.to     // collect edge array
     }
+
     node_out.writeInt(edge_buf.size)
 
     //  replace osm ids with adjacency array ids
