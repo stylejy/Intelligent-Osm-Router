@@ -82,10 +82,17 @@ object KmlWriter {
           <LineString>
 
             <coordinates>
-          { for (node <- path) yield
+          { for (node <- path) yield {
 
-              "\t\t\t\t"+{{ latlon(node).lon }+","+{ latlon(node).lat }}+"\n\n"
-
+              "\t\t\t\t" + {
+                {
+                  latlon(node).lon
+                } + "," + {
+                  latlon(node).lat
+                }
+              } + "\n\n"
+              println("latitude and longitude for node " + node + " " + latlon(node).lat + " " + latlon(node).lon)
+            }
           }
             </coordinates>
 

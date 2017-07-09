@@ -30,8 +30,8 @@ object Graph {
     print("loading graph..")
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
     while (nodes.available != 0) {
-    //  println("Nodes : " + nodes.readInt)
-      node_array += nodes.readInt }
+      node_array += nodes.readInt
+      println("Nodes : " + node_array) }
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
     while (edges.available != 0) { edge_array += edges.readInt }
     val dists = new DataInputStream(new FileInputStream(new File("dists.bin")))
@@ -45,10 +45,9 @@ object Graph {
     //def settled = index == -1
     //def relaxed = index >= +1
 
-    //Check the int conversion later.
     def foreach_outgoing(fun: (Int,Int) => Unit) {
-        for (i <- node_array(id.toInt) until node_array((id+1).toInt)) {
-          //println("Node id = " + i)
+        for (i <- node_array(id.toInt) until node_array((id+1))) {
+          println("                foreach_outgoing Node id = " + i)
           fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
         }
     }

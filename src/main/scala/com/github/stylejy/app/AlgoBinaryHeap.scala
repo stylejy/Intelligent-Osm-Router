@@ -35,6 +35,7 @@ class AlgoBinaryHeap {
 
   def insert(node: Node) = {
     heap.add(node) // relaxed
+    //Index number to show the order.
     node.index = heap.size()
     bubbleUp(node.index)
   }

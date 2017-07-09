@@ -17,7 +17,9 @@
 
 package com.github.stylejy.app
 
-import scala.collection.mutable.{ListBuffer, Map}
+import java.io.{DataInputStream, File, FileInputStream}
+
+import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map}
 import Graph.Node
 
 /**
@@ -26,20 +28,35 @@ import Graph.Node
 class AlgoDijkstra(source: Int, target: Int) {
   def run {
 
+    //For testing. This part is the same as one in KmlWriter
+    val latlon = ArrayBuffer[LatLon]()
+    case class LatLon(lat:Float, lon:Float)
+    val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
+    while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
+    //End testing code.
+
     val Q = new AlgoBinaryHeap()
+    /** Q.insert will label coordinates with new ids. After this point,
+      * OSM ids are no longer used.
+      */
     Q.insert(Node(source, dist = 0))
 
     while (!Q.isEmpty) {
 
+      println("Q: " + Q.heap)
       var node = Q.extractMin // now settled.
 
-      if (node.id == target) { //are we allready done?
+      println("node id " + node.id + " in AlgoDijkstra ---> node: " + node)
+      println("******** short node id: " + node.id + " -> osm node id: ")
+
+      if (node.id == target) { //are we already done?
         println("PATH FOUND (searched "+spt.size+" nodes)")
         return
       }
 
       node.foreach_outgoing { (neighbour , weight) => // relaxation
 
+        println("neighbour: " + neighbour + " weight " + weight)
         if (neighbour.dist > node.dist + weight) {
 
           neighbour.dist = node.dist + weight

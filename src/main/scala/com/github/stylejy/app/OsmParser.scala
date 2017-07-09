@@ -77,6 +77,7 @@ object OsmParser {
         val lat = (node\"@lat").text.toFloat
         val lon = (node\"@lon").text.toFloat
         nodes(id) = Node(lat, lon)
+        println("***PARSER*** OSM ID: " + id + " Latitude: " + lat + " Longitude: " + lon)
     }
     println("   ("+nodes.size+") Done.")
 
@@ -126,7 +127,7 @@ object OsmParser {
     println("          Done.")
 
 
-    print(" -> writing file...")
+    println(" -> writing file...")
     val osm_id_map = Map[Long, Long]()
     var edge_buf = ArrayBuffer[Long]()
     val node_out = dataOutputStream("nodes.bin")
@@ -136,16 +137,16 @@ object OsmParser {
     var id: Long = 0
 
     for (e <- edges) {  // build adjacency array
-
       if (e.from != id) {
         id = e.from
         node_out.writeInt(edge_buf.size)
-        println("\n\n\nedge_buf.size : "+edge_buf.size)
+        //println("\n\n\nedge_buf.size : "+edge_buf.size)
         osm_id_map(id) = osm_id_map.size
         nodes.get(e.from) match {
           case Some(node) =>
             latlons.writeFloat(node.lat)
             latlons.writeFloat(node.lon)
+            println("id " + id + " Lat and Lon " + node.lat + " " + node.lon)
           case None =>
         }
       }
@@ -155,8 +156,12 @@ object OsmParser {
 
     node_out.writeInt(edge_buf.size)
 
-    //  replace osm ids with adjacency array ids
+    println("edge_buf original: " + edge_buf)
+
+    /** replace osm ids with adjacency array ids */
     edge_buf = edge_buf map osm_id_map
+
+    println("edge_buf replaced: " + edge_buf)
 
     //  write edge array to adjacency array file
     edge_buf foreach (edge_out.writeLong)
