@@ -5,15 +5,11 @@ package com.github.stylejy.app
   */
 object MainController {
   def main(args: Array[String]): Unit = {
-    run()
+    run
   }
 
-  def run(): Unit = {
+  def run = {
     OsmParser.run
     Graph.load
-
-    //For test
-    /*val path = new AlgoDijkstra(20, 5).getPath
-    KmlWriter.write(path, "output")*/
   }
 }
