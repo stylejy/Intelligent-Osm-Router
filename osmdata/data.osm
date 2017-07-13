@@ -1,0 +1,337 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<osm version='0.6' generator='JOSM'>
+  <bounds minlat='51.5117005' minlon='-0.1233065' maxlat='51.512208' maxlon='-0.1219976' origin='CGImap 0.6.0 (6181 thorn-01.openstreetmap.org)' />
+  <node id='25471089' timestamp='2017-02-14T01:41:54Z' uid='232386' user='_yog' version='6' changeset='46066353' lat='51.5122439' lon='-0.1221224' />
+  <node id='110794270' timestamp='2015-07-05T12:11:50Z' uid='37137' user='Derick Rethans' version='7' changeset='32424630' lat='51.5124256' lon='-0.1225202' />
+  <node id='110794271' timestamp='2015-07-05T12:11:50Z' uid='37137' user='Derick Rethans' version='7' changeset='32424630' lat='51.511999' lon='-0.1220802' />
+  <node id='110794273' timestamp='2015-07-05T12:11:50Z' uid='37137' user='Derick Rethans' version='6' changeset='32424630' lat='51.5116059' lon='-0.1230146' />
+  <node id='110794275' timestamp='2015-07-05T12:11:50Z' uid='37137' user='Derick Rethans' version='7' changeset='32424630' lat='51.5119519' lon='-0.1232603' />
+  <node id='566313869' timestamp='2015-07-05T12:11:49Z' uid='37137' user='Derick Rethans' version='4' changeset='32424630' lat='51.5118417' lon='-0.1230195'>
+    <tag k='amenity' v='pub' />
+    <tag k='name' v='Punch &amp; Judy' />
+    <tag k='toilets' v='yes' />
+    <tag k='toilets:access' v='customers' />
+  </node>
+  <node id='566313870' timestamp='2015-07-05T12:11:47Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5121568' lon='-0.1223616'>
+    <tag k='amenity' v='restaurant' />
+    <tag k='name' v='Chez Gerard' />
+  </node>
+  <node id='689212750' timestamp='2017-06-04T23:20:54Z' uid='541803' user='antoineg' version='4' changeset='49253310' lat='51.5118999' lon='-0.1222464'>
+    <tag k='addr:city' v='London' />
+    <tag k='addr:housenumber' v='18' />
+    <tag k='addr:postcode' v='WC2E 8RF' />
+    <tag k='addr:street' v='Covent Garden' />
+    <tag k='amenity' v='restaurant' />
+    <tag k='description' v='Bakery and Communal Table' />
+    <tag k='fhrs:confidence_management' v='5' />
+    <tag k='fhrs:hygiene' v='10' />
+    <tag k='fhrs:id' v='413561' />
+    <tag k='fhrs:local_authority_id' v='01265/0048/0/000' />
+    <tag k='fhrs:rating' v='2' />
+    <tag k='fhrs:rating_date' v='2012-09-12' />
+    <tag k='fhrs:structural' v='15' />
+    <tag k='name' v='Le Pain Quotidien' />
+    <tag k='source:addr' v='FSA Food Hygiene Ratings Database' />
+    <tag k='source:postcode' v='FSA Food Hygiene Ratings Database' />
+  </node>
+  <node id='751735370' timestamp='2017-02-14T01:41:55Z' uid='232386' user='_yog' version='4' changeset='46066353' lat='51.5121134' lon='-0.1219675' />
+  <node id='751735379' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='3' changeset='47987179' lat='51.5117375' lon='-0.1235201' />
+  <node id='968597335' timestamp='2010-10-29T11:14:20Z' uid='84681' user='SK53' version='1' changeset='6216480' lat='51.5120631' lon='-0.1228637'>
+    <tag k='amenity' v='market' />
+    <tag k='name' v='Apple Market' />
+  </node>
+  <node id='1230621874' timestamp='2015-07-05T12:11:46Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5120131' lon='-0.1220659'>
+    <tag k='addr:housenumber' v='27b' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='cafe' />
+    <tag k='contact:phone' v='+44 207 7494794' />
+    <tag k='name' v='Andronicas Coffee' />
+  </node>
+  <node id='1297116343' timestamp='2016-10-28T13:02:15Z' uid='84263' user='Robert Whittaker' version='3' changeset='43246133' lat='51.5117531' lon='-0.1230761'>
+    <tag k='addr:city' v='London' />
+    <tag k='addr:country' v='GB' />
+    <tag k='addr:housename' v='The Makket' />
+    <tag k='addr:housenumber' v='14' />
+    <tag k='addr:postcode' v='WC2E 8RB' />
+    <tag k='addr:street' v='The Piazza' />
+    <tag k='contact:website' v='http://www.savagelondon.com' />
+    <tag k='fixme' v='Location and house name look odd.' />
+    <tag k='name' v='Savage London' />
+    <tag k='shop' v='clothes' />
+    <tag k='source' v='webmaster for Savage London' />
+  </node>
+  <node id='1539517189' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5121171' lon='-0.1222169' />
+  <node id='1539517193' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5119652' lon='-0.1219855' />
+  <node id='1539517198' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5116515' lon='-0.1229128' />
+  <node id='1539517202' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5119781' lon='-0.123447' />
+  <node id='1539517203' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5115395' lon='-0.1229344' />
+  <node id='1539517205' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5115206' lon='-0.1229125' />
+  <node id='1539517206' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5121061' lon='-0.1222414' />
+  <node id='1539517212' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5122073' lon='-0.1223585' />
+  <node id='1539517217' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5119631' lon='-0.1234805' />
+  <node id='1539517219' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5124222' lon='-0.1224611' />
+  <node id='1539517220' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5115713' lon='-0.1230324' />
+  <node id='1539517222' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5115884' lon='-0.1229943' />
+  <node id='1539517223' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.511906' lon='-0.1233626' />
+  <node id='1539517225' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5124059' lon='-0.1224975' />
+  <node id='1539517226' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5115214' lon='-0.1229747' />
+  <node id='1539517236' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5119461' lon='-0.1219634' />
+  <node id='1539517238' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5119241' lon='-0.1233835' />
+  <node id='1539517245' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='3' changeset='32424630' lat='51.5122195' lon='-0.1223312' />
+  <node id='1843386026' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5119088' lon='-0.1234177' />
+  <node id='1843386028' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.51198' lon='-0.1219526' />
+  <node id='1843386030' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5119992' lon='-0.1234714' />
+  <node id='1843386032' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5120302' lon='-0.1220107' />
+  <node id='1843386034' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5123414' lon='-0.1224722' />
+  <node id='1843386041' timestamp='2015-07-05T12:11:52Z' uid='37137' user='Derick Rethans' version='2' changeset='32424630' lat='51.5123723' lon='-0.1224033' />
+  <node id='2290086954' timestamp='2017-01-02T10:37:06Z' uid='4007051' user='upendrakarukonda' version='3' changeset='44841955' lat='51.5117363' lon='-0.1226769'>
+    <tag k='name' v='Covent Garden' />
+    <tag k='place' v='suburb' />
+    <tag k='wikidata' v='Q55019' />
+  </node>
+  <node id='2526585882' timestamp='2017-03-07T19:39:10Z' uid='2414126' user='Weasel-Wiesel' version='4' changeset='46661511' lat='51.5117522' lon='-0.1225568'>
+    <tag k='addr:city' v='London' />
+    <tag k='addr:country' v='GB' />
+    <tag k='addr:housename' v='Market Building' />
+    <tag k='addr:housenumber' v='24' />
+    <tag k='addr:postcode' v='WC2E 8RD' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='fast_food' />
+    <tag k='contact:phone' v='+44 20 35981360' />
+    <tag k='cuisine' v='burger' />
+    <tag k='name' v='Shake Shack' />
+    <tag k='opening_hours' v='Mo-Sa 11:00-23:00; Su 11:00-22:30' />
+    <tag k='takeaway' v='yes' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='3706217483' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5120307' lon='-0.1232669'>
+    <tag k='name' v='Burberry' />
+    <tag k='shop' v='perfume' />
+  </node>
+  <node id='3706217484' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5120231' lon='-0.1224905'>
+    <tag k='name' v='Carat' />
+    <tag k='shop' v='jewelry' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='3706217485' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5120705' lon='-0.1231831'>
+    <tag k='name' v='Chanel' />
+    <tag k='shop' v='beauty' />
+  </node>
+  <node id='3706217486' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5121066' lon='-0.1231031'>
+    <tag k='name' v='Dior' />
+    <tag k='shop' v='perfume' />
+    <tag k='wheelchair' v='yes' />
+  </node>
+  <node id='3706217488' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5118828' lon='-0.1228526'>
+    <tag k='addr:housenumber' v='16' />
+    <tag k='name' v='Miller Harris' />
+    <tag k='payment:american_express' v='yes' />
+    <tag k='phone' v='020 783 68037' />
+    <tag k='postal_code' v='WC2E 8RB' />
+    <tag k='shop' v='gift' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='3706217489' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5118497' lon='-0.1229317'>
+    <tag k='name' v='Pylones' />
+    <tag k='shop' v='gift' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='3706217490' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5118245' lon='-0.1229896'>
+    <tag k='name' v='The Moomin Shop' />
+    <tag k='shop' v='toys' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='3706217491' timestamp='2015-08-20T08:43:44Z' uid='38784' user='Tom Morris' version='1' changeset='33457293' lat='51.5119847' lon='-0.1225875'>
+    <tag k='amenity' v='ice_cream' />
+    <tag k='name' v='Venchi' />
+    <tag k='payment:american_express' v='yes' />
+    <tag k='wheelchair' v='no' />
+  </node>
+  <node id='3706217493' timestamp='2017-03-07T19:39:10Z' uid='2414126' user='Weasel-Wiesel' version='5' changeset='46661511' lat='51.511949' lon='-0.1226646'>
+    <tag k='addr:city' v='London' />
+    <tag k='addr:country' v='GB' />
+    <tag k='addr:housenumber' v='17' />
+    <tag k='addr:postcode' v='WC2E 8RB' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='contact:phone' v='+44 20 72403532' />
+    <tag k='contact:website' v='https://www.whittard.co.uk/locations/covent_garden' />
+    <tag k='name' v='Whittard' />
+    <tag k='opening_hours' v='09:30-21:00' />
+    <tag k='shop' v='coffee' />
+    <tag k='wheelchair' v='limited' />
+  </node>
+  <node id='3790287116' timestamp='2015-10-17T13:53:44Z' uid='26324' user='Trublu' version='1' changeset='34694334' lat='51.5116873' lon='-0.1223474' />
+  <node id='3790287117' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='2' changeset='47987179' lat='51.5120673' lon='-0.1227878' />
+  <node id='3790287118' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='2' changeset='47987179' lat='51.5118517' lon='-0.1225379' />
+  <node id='3811129600' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='2' changeset='47987179' lat='51.5119864' lon='-0.1226941' />
+  <node id='3811129601' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='2' changeset='47987179' lat='51.5116595' lon='-0.123428' />
+  <node id='4191784997' timestamp='2016-05-17T14:46:51Z' uid='3852719' user='Mathieu0907' version='1' changeset='39378506' lat='51.5117036' lon='-0.1226523'>
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='restaurant' />
+    <tag k='cuisine' v='french' />
+    <tag k='internet_access' v='wlan' />
+    <tag k='name' v='Chez Antoinette' />
+    <tag k='opening_hours' v='Mo-Th 10:00-21:00;Fr-Sa 10:00-23:00;Su 10:00-20:00' />
+    <tag k='phone' v='+442072409072' />
+    <tag k='website' v='www.chezantoinette.co.uk' />
+  </node>
+  <node id='4426305298' timestamp='2017-03-07T19:39:10Z' uid='2414126' user='Weasel-Wiesel' version='2' changeset='46661511' lat='51.5119975' lon='-0.1231227'>
+    <tag k='addr:city' v='London' />
+    <tag k='addr:country' v='GB' />
+    <tag k='addr:housename' v='North Hall' />
+    <tag k='addr:housenumber' v='5' />
+    <tag k='addr:postcode' v='WC2E 8RA' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='restaurant' />
+    <tag k='contact:email' v='covent@unionjacksrestaurants.com' />
+    <tag k='contact:phone' v='+44 20 36407086' />
+    <tag k='contact:website' v='http://www.unionjacksrestaurants.com/locations/4' />
+    <tag k='cuisine' v='british' />
+    <tag k='name' v='Union Jacks' />
+    <tag k='opening_hours' v='Mo-Th 12:00-22:00; Fr-Sa 11:30-23:00; Su 12:00-22:00' />
+  </node>
+  <node id='4806684748' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5121596' lon='-0.1223097' />
+  <node id='4806684749' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5118879' lon='-0.1231862' />
+  <node id='4806684750' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5122545' lon='-0.1223717' />
+  <node id='4806684751' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5122236' lon='-0.1229709' />
+  <node id='4806684752' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5116726' lon='-0.1229305' />
+  <node id='4806684753' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.512039' lon='-0.1221296' />
+  <node id='4806684755' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5117443' lon='-0.1224135' />
+  <node id='4806684756' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179' lat='51.5118088' lon='-0.1230926' />
+  <node id='4892671621' timestamp='2017-06-02T19:20:06Z' uid='3868344' user='Derek Ho' version='3' changeset='49204950' lat='51.5119238' lon='-0.1227486'>
+    <tag k='addr:housenumber' v='28' />
+    <tag k='addr:postcode' v='WC2E 8RA' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='fast_food' />
+    <tag k='name' v='Battersea Pie Station - The Pie Shop' />
+    <tag k='opening_hours' v='Mo-Su 10:00-19:00' />
+    <tag k='website' v='http://www.batterseapiestation.co.uk/' />
+  </node>
+  <node id='4907052724' timestamp='2017-06-10T05:58:42Z' uid='3868344' user='Derek Ho' version='1' changeset='49413217' lat='51.5119083' lon='-0.1227431'>
+    <tag k='addr:housenumber' v='28' />
+    <tag k='addr:street' v='Covent Garden Piazza' />
+    <tag k='amenity' v='fast_food' />
+    <tag k='name' v='Battersea Pie - The Pie Shop' />
+  </node>
+  <way id='12232192' timestamp='2017-06-04T23:20:57Z' uid='541803' user='antoineg' version='22' changeset='49253310'>
+    <nd ref='110794270' />
+    <nd ref='1539517225' />
+    <nd ref='1539517219' />
+    <nd ref='1843386041' />
+    <nd ref='1843386034' />
+    <nd ref='4806684750' />
+    <nd ref='1539517245' />
+    <nd ref='1539517212' />
+    <nd ref='4806684748' />
+    <nd ref='1539517206' />
+    <nd ref='1539517189' />
+    <nd ref='4806684753' />
+    <nd ref='110794271' />
+    <nd ref='1843386032' />
+    <nd ref='1843386028' />
+    <nd ref='1539517193' />
+    <nd ref='1539517236' />
+    <nd ref='4806684755' />
+    <nd ref='1539517205' />
+    <nd ref='1539517203' />
+    <nd ref='1539517226' />
+    <nd ref='1539517220' />
+    <nd ref='1539517222' />
+    <nd ref='110794273' />
+    <nd ref='1539517198' />
+    <nd ref='4806684752' />
+    <nd ref='4806684756' />
+    <nd ref='4806684749' />
+    <nd ref='110794275' />
+    <nd ref='1539517223' />
+    <nd ref='1539517238' />
+    <nd ref='1843386026' />
+    <nd ref='1539517217' />
+    <nd ref='1539517202' />
+    <nd ref='1843386030' />
+    <nd ref='4806684751' />
+    <nd ref='110794270' />
+    <tag k='addr:city' v='London' />
+    <tag k='building' v='retail' />
+    <tag k='building:levels' v='1' />
+    <tag k='building:material' v='sandstone' />
+    <tag k='fixme' v='footways etc dont reflect on ground structure (5 E-W routes + 3 NS routes;would be nice to delineate the glass roofs too' />
+    <tag k='loc_name' v='Covent Garden' />
+    <tag k='name' v='Covent Garden Market' />
+    <tag k='name:en' v='Covent Garden Market' />
+    <tag k='name:ko' v='코번트 가든 마켓' />
+    <tag k='name:zh' v='考文特花園市場' />
+    <tag k='note' v='deleted amenity=market;not really true since about 1980' />
+    <tag k='roof:colour' v='grey' />
+    <tag k='roof:levels' v='1' />
+    <tag k='roof:shape' v='hipped' />
+    <tag k='short_name' v='Covent Garden' />
+    <tag k='tourism' v='attraction' />
+    <tag k='wikidata' v='Q55019' />
+    <tag k='wikipedia' v='en:Covent Garden' />
+  </way>
+  <way id='60368360' timestamp='2017-04-20T23:40:48Z' uid='493595' user='Yorvik Prestigitator' version='4' changeset='47987179'>
+    <nd ref='751735370' />
+    <nd ref='4806684753' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='377724261' timestamp='2017-04-20T23:40:48Z' uid='493595' user='Yorvik Prestigitator' version='2' changeset='47987179'>
+    <nd ref='25471089' />
+    <nd ref='4806684748' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354628' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684753' />
+    <nd ref='3790287118' />
+    <nd ref='4806684752' />
+    <tag k='covered' v='yes' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354629' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684749' />
+    <nd ref='751735379' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354631' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684750' />
+    <nd ref='3790287117' />
+    <nd ref='4806684749' />
+    <tag k='covered' v='yes' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354632' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684751' />
+    <nd ref='3790287117' />
+    <nd ref='3811129600' />
+    <nd ref='3790287118' />
+    <nd ref='4806684755' />
+    <tag k='covered' v='yes' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354633' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684748' />
+    <nd ref='3811129600' />
+    <nd ref='4806684756' />
+    <tag k='covered' v='yes' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354634' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684756' />
+    <nd ref='3811129601' />
+    <tag k='highway' v='footway' />
+  </way>
+  <way id='488354635' timestamp='2017-04-20T23:40:47Z' uid='493595' user='Yorvik Prestigitator' version='1' changeset='47987179'>
+    <nd ref='4806684755' />
+    <nd ref='3790287116' />
+    <tag k='highway' v='footway' />
+  </way>
+  <relation id='6605808' timestamp='2016-09-23T21:28:05Z' uid='2414126' user='Weasel-Wiesel' version='1' changeset='42391737'>
+    <member type='way' ref='444061331' role='outer' />
+    <member type='way' ref='12232192' role='inner' />
+    <tag k='highway' v='pedestrian' />
+    <tag k='lit' v='yes' />
+    <tag k='name' v='Covent Garden Piazza' />
+    <tag k='surface' v='paving_stones' />
+    <tag k='type' v='multipolygon' />
+  </relation>
+</osm>

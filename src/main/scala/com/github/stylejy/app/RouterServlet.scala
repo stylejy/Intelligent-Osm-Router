@@ -1,24 +1,74 @@
 package com.github.stylejy.app
 
+import java.io.{File, FileNotFoundException}
+
 import org.scalatra._
 
-class RouterServlet extends IntelligentOsmRouterStack {
+import scala.xml.{Node, XML}
+import servlet.FileUploadSupport
+
+class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport with FlashMapSupport {
 
   var isAvailable = false
+  def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
 
-  println("---------------> Processing OSM data")
-  MainController.run
 
-  println("---------------> Processing web presentation")
   get("/") {
     isAvailable = true
-    <html>
-      <body>
-        <h1>[ Intelligent-osm-router ]</h1>
-        <h2>---> Server is working</h2>
-        <h2><a href="/test">Get paths</a></h2>
-      </body>
-    </html>
+
+    try {
+      XML.loadFile("osmdata/data.osm")
+      displayPage(
+        <h3>
+          ----> OSM data is ready to use in the server.
+        </h3>
+        <p>
+          ( If you want to update, you can used the update form below. )
+        </p>
+        <p>
+          Update:
+        </p>
+          <form action={url("/")} method="post" enctype="multipart/form-data">
+            <p>File to update: <input type="file" name="map" /></p>
+            <p><input type="submit" value="Update" /></p>
+          </form>
+
+      )
+    } catch {
+      case e: FileNotFoundException =>
+        displayPage(
+          <h3>
+            ----> Upload an OSM file to store in the server.
+          </h3>
+            <form action={url("/")} method="post" enctype="multipart/form-data">
+              <p>File to upload: <input type="file" name="map" /></p>
+              <p><input type="submit" value="Upload" /></p>
+            </form>
+        )
+    }
+
+  }
+
+  post("/") {
+
+    //Define a regex pattern to identify osm files.
+    val pattern = "\\w.osm".r
+
+    //Accepts only osm files to store in the server.
+    pattern findFirstIn fileParams("map").name match {
+      case Some(name) =>
+        val saveFile = new File("osmdata/data.osm")
+        Ok(fileParams("map").write(saveFile))
+        OsmParser.run
+        redirect("/")
+
+      case _ =>
+        BadRequest(displayPage(
+          <p>
+            Please choose a correct OSM file before submitting!
+          </p>)
+        )
+    }
   }
 
   get("/test") {

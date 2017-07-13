@@ -33,9 +33,8 @@ object OsmParser {
   case class Edge(from:Long, to:Long, dist:Int)
 
   def run = {
-    println("usage: parse <file>.osm")
     val start = System.currentTimeMillis()
-    parse("osmdata/sample.osm")
+    parse("osmdata/data.osm")
     println(((start-System.currentTimeMillis())/60000)+"min")
   }
 
