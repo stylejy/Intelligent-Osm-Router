@@ -14,7 +14,6 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
 
   get("/") {
-    isAvailable = true
 
     try {
       XML.loadFile("osmdata/data.osm")
@@ -22,6 +21,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         <h3>
           ----> OSM data is ready to use in the server.
         </h3>
+          <object data="http://osm.quelltextlich.at/viewer-js.html?lat=51.50939&amp;lon=-0.11832&amp;zoom=15" width="100%" height="400"></object>
         <p>
           ( If you want to update, you can used the update form below. )
         </p>
@@ -32,6 +32,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
             <p>File to update: <input type="file" name="map" /></p>
             <p><input type="submit" value="Update" /></p>
           </form>
+
 
       )
     } catch {
@@ -57,6 +58,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     //Accepts only osm files to store in the server.
     pattern findFirstIn fileParams("map").name match {
       case Some(name) =>
+        isAvailable = true
         val saveFile = new File("osmdata/data.osm")
         Ok(fileParams("map").write(saveFile))
         OsmParser.run

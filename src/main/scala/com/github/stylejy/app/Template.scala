@@ -4,7 +4,7 @@ import scala.xml.{Text, Node}
 
 object Template {
 
-  def page(title:String, content:Seq[Node], url: String => String = identity _, head: Seq[Node] = Nil, scripts: Seq[String] = Seq.empty, defaultScripts: Seq[String] = Seq("/assets/js/jquery.min.js", "/assets/js/bootstrap.min.js")) = {
+  def page(title:String, content:Seq[Node], url: String => String = identity _, head: Seq[Node] = Nil, scripts: Seq[String] = Seq.empty, defaultScripts: Seq[String] = Seq("osmTools.js")) = {
     <html lang="en">
       <head>
         <title>{ title }</title>
@@ -18,6 +18,8 @@ object Template {
         <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet" />
         <link href="/assets/css/syntax.css" rel="stylesheet" />
         <link href="/assets/css/scalatra.css" rel="stylesheet" />
+
+
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
