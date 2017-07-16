@@ -11,17 +11,22 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   var isAvailable = false
   def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
+  def displayPageWithHead(content: Seq[Node], head: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head)
 
 
   get("/") {
 
     try {
       XML.loadFile("osmdata/data.osm")
-      displayPage(
+      displayPageWithHead(
+        <!-- content -->
         <h3>
           ----> OSM data is ready to use in the server.
         </h3>
-          <object data="http://osm.quelltextlich.at/viewer-js.html?lat=51.50939&amp;lon=-0.11832&amp;zoom=15" width="100%" height="400"></object>
+
+          <div id="map"></div>
+          <script src="LeafletController.js"></script>
+
         <p>
           ( If you want to update, you can used the update form below. )
         </p>
@@ -32,8 +37,11 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
             <p>File to update: <input type="file" name="map" /></p>
             <p><input type="submit" value="Update" /></p>
           </form>
-
-
+        ,
+        <!-- head -->
+          <link rel="stylesheet" href="leaflet/leaflet.css"/>
+          <script src="leaflet/leaflet.js"></script>
+            <link href="PageStyle.css" rel="stylesheet" />
       )
     } catch {
       case e: FileNotFoundException =>
@@ -87,5 +95,20 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         </body>
       </html>
     }
+  }
+
+  get("/test2") {
+    <html>
+      <head>
+        <title>A Leaflet map!</title>
+        <link rel="stylesheet" href="leaflet/leaflet.css"/>
+        <script src="leaflet/leaflet.js"></script>
+        <link href="PageStyle.css" rel="stylesheet" />
+      </head>
+      <body>
+        <div id="map"></div>
+        <script src="LeafletController.js"></script>
+      </body>
+    </html>
   }
 }
