@@ -17,29 +17,44 @@
 
 package com.github.stylejy.app
 
-import java.io.{File, FileInputStream, DataInputStream}
+import java.io.{DataInputStream, File, FileInputStream}
+
+import com.github.stylejy.app.OsmParser.dataOutputStream
+
 import scala.collection.mutable.ArrayBuffer
 import scala.xml.XML
 
 /**
   * Created by stylejy on 20/06/2017.
   */
-object KmlWriter {
+object PathWriter {
   val latlon = ArrayBuffer[LatLon]()
   case class LatLon(lat:Float, lon:Float)
   val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
   while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
 
+  //Test - start
+  case class latlonTest(lat: Double, lon: Double)
+
+  var all = List(
+    latlonTest(51.512253, -0.1223717),
+    latlonTest(51.511852, -0.1225379)
+  )
+  //Test - end
+
 
   def write(path: List[Int], file: String) {
 
+
+
+    /*
     val kml = build(path)
     val kmlLine = buildLine(path)
     print("writing kml..")
     XML.save(file+"default.kml", kml, "UTF-8", true, null)
     XML.save(file+"Line.kml", kmlLine, "UTF-8", true, null)
     println(" Done.")
-
+    */
   }
 
   def build(path: List[Int]) = {

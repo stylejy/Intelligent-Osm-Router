@@ -1,18 +1,30 @@
 package com.github.stylejy.app
 
-import java.io.{File, FileNotFoundException}
+import java.io.{File, FileNotFoundException, Writer}
 
+import com.github.stylejy.app.PathWriter.latlonTest
+import org.json4s.JValue
 import org.scalatra._
 
 import scala.xml.{Node, XML}
 import servlet.FileUploadSupport
+// JSON-related libraries
+import org.json4s.{DefaultFormats, Formats}
+// JSON handling support from Scalatra
+import org.scalatra.json._
 
-class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport with FlashMapSupport {
+class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport with FlashMapSupport with JacksonJsonSupport {
 
   var isAvailable = false
   def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
   def displayPageWithHead(content: Seq[Node], head: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head)
 
+  val test = List(
+    latlonTest(51.512253, -0.1223717),
+    latlonTest(51.511852, -0.1225379)
+  )
+
+  protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
   get("/") {
 
@@ -23,9 +35,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         <h3>
           ----> OSM data is ready to use in the server.
         </h3>
-
           <div id="map"></div>
           <script src="LeafletController.js"></script>
+          <script src="test.js"></script>
 
         <p>
           ( If you want to update, you can used the update form below. )
@@ -82,33 +94,25 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/test") {
-    if( isAvailable ) {
+    //if( isAvailable ) {
+      Graph.load
+
       val start = System.currentTimeMillis()
       val path = new AlgoDijkstra(5, 10).getPath
       println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
       contentType = "application/vnd.google-earth.kml+xml"
-      KmlWriter.write(path, "output")
-    } else {
-      <html>
-        <body>
-          <h1>This link is not directly accessible.</h1>
-        </body>
-      </html>
-    }
+      PathWriter.write(path, "output")
+    //} else {
+    //  <html>
+    //    <body>
+    //      <h1>This link is not directly accessible.</h1>
+    //    </body>
+    //  </html>
+    //}
   }
 
-  get("/test2") {
-    <html>
-      <head>
-        <title>A Leaflet map!</title>
-        <link rel="stylesheet" href="leaflet/leaflet.css"/>
-        <script src="leaflet/leaflet.js"></script>
-        <link href="PageStyle.css" rel="stylesheet" />
-      </head>
-      <body>
-        <div id="map"></div>
-        <script src="LeafletController.js"></script>
-      </body>
-    </html>
+  get("/path") {
+    contentType = formats("json")
+    PathWriter.all
   }
 }
