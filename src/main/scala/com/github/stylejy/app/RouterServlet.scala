@@ -19,11 +19,6 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
   def displayPageWithHead(content: Seq[Node], head: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head)
 
-  val test = List(
-    latlonTest(51.512253, -0.1223717),
-    latlonTest(51.511852, -0.1225379)
-  )
-
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
   get("/") {
@@ -37,7 +32,6 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         </h3>
           <div id="map"></div>
           <script src="LeafletController.js"></script>
-          <script src="test.js"></script>
 
         <p>
           ( If you want to update, you can used the update form below. )
