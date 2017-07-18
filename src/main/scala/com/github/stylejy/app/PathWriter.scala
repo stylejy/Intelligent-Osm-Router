@@ -18,11 +18,7 @@
 package com.github.stylejy.app
 
 import java.io.{DataInputStream, File, FileInputStream}
-
-import com.github.stylejy.app.OsmParser.dataOutputStream
-
-import scala.collection.mutable.ArrayBuffer
-import scala.xml.XML
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 /**
   * Created by stylejy on 20/06/2017.
@@ -33,87 +29,13 @@ object PathWriter {
   val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
   while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
 
-  //Test - start
-  case class latlonTest(lat: Double, lon: Double)
-
-  var all = List(
-    latlonTest(51.512253, -0.1223717),
-    latlonTest(51.511852, -0.1225379)
-  )
-  //Test - end
-
+  case class latlonModel(lat: Double, lon: Double)
+  var pathOut = new ListBuffer[latlonModel]
 
   def write(path: List[Int], file: String) {
-
-
-
-    /*
-    val kml = build(path)
-    val kmlLine = buildLine(path)
-    print("writing kml..")
-    XML.save(file+"default.kml", kml, "UTF-8", true, null)
-    XML.save(file+"Line.kml", kmlLine, "UTF-8", true, null)
-    println(" Done.")
-    */
-  }
-
-  def build(path: List[Int]) = {
-
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        <Style id="yellowLineStyle">
-          <LineStyle>
-            <width>42</width>
-          </LineStyle>
-        </Style>
-        { for (node <- path) yield
-        <Placemark>
-          <name>{node}</name>
-          <description>foo bar</description>
-          <styleUrl>#yellowLineStyle</styleUrl>
-          <Point>
-            <coordinates>
-              { latlon(node).lon },{ latlon(node).lat }
-            </coordinates>
-          </Point>
-        </Placemark>
-        }
-      </Document>
-    </kml>
-  }
-
-  def buildLine(path: List[Int]) = {
-
-    <kml xmlns="http://www.opengis.net/kml/2.2">
-      <Document>
-        <Style id="yellowLineStyle">
-          <LineStyle>
-            <width>4</width>
-            <color>ff33ccff</color>
-          </LineStyle>
-        </Style>
-        <Placemark>
-          <styleUrl>#yellowLineStyle</styleUrl>
-          <LineString>
-
-            <coordinates>
-          { for (node <- path) yield {
-
-              "\t\t\t\t" + {
-                {
-                  latlon(node).lon
-                } + "," + {
-                  latlon(node).lat
-                }
-              } + "\n\n"
-              println("latitude and longitude for node " + node + " " + latlon(node).lat + " " + latlon(node).lon)
-            }
-          }
-            </coordinates>
-
-          </LineString>
-        </Placemark>
-      </Document>
-    </kml>
+    for (node <- path) yield {
+      pathOut += latlonModel(latlon(node).lat, latlon(node).lon)
+    }
+    println(pathOut)
   }
 }

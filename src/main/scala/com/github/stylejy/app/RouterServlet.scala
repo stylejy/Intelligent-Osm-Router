@@ -2,8 +2,6 @@ package com.github.stylejy.app
 
 import java.io.{File, FileNotFoundException, Writer}
 
-import com.github.stylejy.app.PathWriter.latlonTest
-import org.json4s.JValue
 import org.scalatra._
 
 import scala.xml.{Node, XML}
@@ -87,26 +85,14 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     }
   }
 
-  get("/test") {
-    //if( isAvailable ) {
-      Graph.load
-
-      val start = System.currentTimeMillis()
-      val path = new AlgoDijkstra(5, 10).getPath
-      println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
-      contentType = "application/vnd.google-earth.kml+xml"
-      PathWriter.write(path, "output")
-    //} else {
-    //  <html>
-    //    <body>
-    //      <h1>This link is not directly accessible.</h1>
-    //    </body>
-    //  </html>
-    //}
-  }
-
   get("/path") {
+    Graph.load
+    val start = System.currentTimeMillis()
+    val path = new AlgoDijkstra(5, 12).getPath
+    println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
+    PathWriter.write(path, "output")
+
     contentType = formats("json")
-    PathWriter.all
+    PathWriter.pathOut
   }
 }
