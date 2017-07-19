@@ -30,12 +30,13 @@ object PathWriter {
   while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
 
   case class latlonModel(lat: Double, lon: Double)
-  var pathOut = new ListBuffer[latlonModel]
 
-  def write(path: List[Int], file: String) {
+  def write(path: List[Int]): ListBuffer[latlonModel] = {
+    var pathOut = new ListBuffer[latlonModel]
     for (node <- path) yield {
       pathOut += latlonModel(latlon(node).lat, latlon(node).lon)
     }
-    println(pathOut)
+    println("****************************************" + pathOut)
+    pathOut
   }
 }
