@@ -23,7 +23,7 @@ import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 /**
   * Created by stylejy on 20/06/2017.
   */
-object PathWriter {
+object PathWriter extends VariableCleaner{
   val latlon = ArrayBuffer[LatLon]()
   case class LatLon(lat:Float, lon:Float)
   case class latlonModel(lat: Double, lon: Double)
@@ -34,7 +34,7 @@ object PathWriter {
 
   def update = {
     //To prevent this object from writing wring Json results.
-    latlon.clear()
+    resetVariable(latlon)
     in = FileIOController.in("latlns.bin")
     makeLatlon
   }
@@ -48,5 +48,5 @@ object PathWriter {
     pathOut
   }
 
-  def makeLatlon = {while(in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }}
+  private def makeLatlon = {while(in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }}
 }

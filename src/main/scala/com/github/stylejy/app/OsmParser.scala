@@ -24,21 +24,23 @@ import scala.xml.{Elem, XML}
 import scala.collection.mutable.Map
 import scala.collection.mutable.ArrayBuffer
 
-object OsmParser {
+object OsmParser extends VariableCleaner{
 
-  var nodes: Map[Long, Node] = Map()
-  var edges: ArrayBuffer[Edge] = ArrayBuffer()
+  private var nodes: Map[Long, Node] = Map()
+  private var edges: ArrayBuffer[Edge] = ArrayBuffer()
 
   case class Node(lat:Float, lon:Float)
   case class Edge(from:Long, to:Long, dist:Int)
 
   def run = {
+    resetVariable(nodes)
+    resetVariable(edges)
     val start = System.currentTimeMillis()
     parse("osmdata/data.osm")
     println(((start-System.currentTimeMillis())/60000)+"min")
   }
 
-  def parse(osm_file: String) {
+  private def parse(osm_file: String) {
 
     val xml = XML.loadFile(osm_file)
 
@@ -48,9 +50,9 @@ object OsmParser {
     writeFiles
   }
 
-  def readNodes(xml: Elem) = {
+  private def readNodes(xml: Elem) = {
     //To prevent binary files accumulated every time the map is updated.
-    nodes.empty
+    //nodes.empty
     println("\n -> reading nodes..")
     println(xml)
     (xml \ "node") foreach { (node) =>
@@ -64,9 +66,9 @@ object OsmParser {
     println("   ("+nodes.size+") Done.")
   }
 
-  def readWays(xml: Elem) = {
+  private def readWays(xml: Elem) = {
     //To prevent binary files accumulated every time the map is updated.
-    edges.clear()
+    //edges.clear()
     println(" -> reading ways...")
 
     (xml \ "way") foreach { (way) =>
@@ -109,7 +111,7 @@ object OsmParser {
     println("   ("+edges.size+") Done.")
   }
 
-  def sortEdges = {
+  private def sortEdges = {
     println(" -> sorting edges..")
 
     edges = edges.sortWith(_.from < _.from)
@@ -118,7 +120,7 @@ object OsmParser {
   }
 
 
-  def writeFiles = {
+  private def writeFiles = {
     println(" -> writing file...")
 
     val osm_id_map = Map[Long, Long]()
@@ -162,7 +164,7 @@ object OsmParser {
     println("          Done.\n")
   }
 
-  def dist(from: Node, to: Node): Int = {
+  private def dist(from: Node, to: Node): Int = {
     val lat1 = toRadians(from.lat)
     val lon1 = toRadians(from.lon)
     val lat2 = toRadians(to.lat)
@@ -175,7 +177,7 @@ object OsmParser {
         * cos(lon2 - lon1)))*1000).toInt
   }
 
-  def Long2Node(id:Long): Node =
+  private def Long2Node(id:Long): Node =
     nodes.get(id) match {
       case Some(node) => node
       case None => Node(0f,0f)

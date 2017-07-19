@@ -20,16 +20,20 @@ package com.github.stylejy.app
 import java.io.{File, FileInputStream, DataInputStream}
 import scala.collection.mutable.{Map, ArrayBuffer}
 
-object Graph {
+object Graph extends VariableCleaner{
 
   val node_array = ArrayBuffer[Int]()
   val edge_array = ArrayBuffer[Int]()
   val dist_array = ArrayBuffer[Int]()
 
+  def resetVars = {
+    resetVariable(node_array)
+    resetVariable(edge_array)
+    resetVariable(dist_array)
+  }
+
   def load() {
-    node_array.clear()
-    edge_array.clear()
-    dist_array.clear()
+    resetVars
     print("loading graph..")
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
     while (nodes.available != 0) {
