@@ -31,12 +31,13 @@ object Graph {
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
     while (nodes.available != 0) {
       node_array += nodes.readInt
-      println("Nodes : " + node_array) }
+      //println("Nodes : " + node_array)
+    }
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
     while (edges.available != 0) { edge_array += edges.readInt }
     val dists = new DataInputStream(new FileInputStream(new File("dists.bin")))
     while (dists.available != 0) { dist_array += dists.readInt }
-    println("  ("+node_array.size+" nodes, "+edge_array.size+" edges) Done.\n")
+    //println("  ("+node_array.size+" nodes, "+edge_array.size+" edges) Done.\n")
   }
 
 
@@ -47,7 +48,7 @@ object Graph {
 
     def foreach_outgoing(fun: (Int,Int) => Unit) {
         for (i <- node_array(id.toInt) until node_array((id+1))) {
-          println("                foreach_outgoing Node id = " + i)
+          //println("                foreach_outgoing Node id = " + i)
           fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
         }
     }

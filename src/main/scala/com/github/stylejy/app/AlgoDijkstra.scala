@@ -43,11 +43,11 @@ class AlgoDijkstra(source: Int, target: Int) {
 
     while (!Q.isEmpty) {
 
-      println("Q: " + Q.heap)
+      //println("Q: " + Q.heap)
       var node = Q.extractMin // now settled.
 
-      println("node id " + node.id + " in AlgoDijkstra ---> node: " + node)
-      println("******** short node id: " + node.id + " -> osm node id: ")
+      //println("node id " + node.id + " in AlgoDijkstra ---> node: " + node)
+      //println("******** short node id: " + node.id + " -> osm node id: ")
 
       if (node.id == target) { //are we already done?
         println("PATH FOUND (searched "+spt.size+" nodes)")
@@ -56,7 +56,7 @@ class AlgoDijkstra(source: Int, target: Int) {
 
       node.foreach_outgoing { (neighbour , weight) => // relaxation
 
-        println("neighbour: " + neighbour + " weight " + weight)
+        //println("neighbour: " + neighbour + " weight " + weight)
         if (neighbour.dist > node.dist + weight) {
 
           neighbour.dist = node.dist + weight

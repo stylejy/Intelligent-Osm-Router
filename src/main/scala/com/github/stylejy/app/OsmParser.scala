@@ -18,7 +18,7 @@
 package com.github.stylejy.app
 
 import scala.math._
-import java.io.{DataOutputStream, File, FileInputStream, FileOutputStream}
+import java.io._
 
 import scala.xml.{Elem, XML}
 import scala.collection.mutable.Map
@@ -49,6 +49,8 @@ object OsmParser {
   }
 
   def readNodes(xml: Elem) = {
+    //To prevent binary files accumulated every time the map is updated.
+    nodes.empty
     println("\n -> reading nodes..")
     println(xml)
     (xml \ "node") foreach { (node) =>
@@ -63,6 +65,8 @@ object OsmParser {
   }
 
   def readWays(xml: Elem) = {
+    //To prevent binary files accumulated every time the map is updated.
+    edges.clear()
     println(" -> reading ways...")
 
     (xml \ "way") foreach { (way) =>
@@ -158,7 +162,10 @@ object OsmParser {
     println("          Done.\n")
   }
 
-  def dataOutputStream(file: String) = new DataOutputStream(new FileOutputStream(new File(file)))
+  def dataOutputStream(file: String) =  {
+    new DataOutputStream(new FileOutputStream(new File(file)))
+  }
+
 
   def dist(from: Node, to: Node): Int = {
     val lat1 = toRadians(from.lat)
