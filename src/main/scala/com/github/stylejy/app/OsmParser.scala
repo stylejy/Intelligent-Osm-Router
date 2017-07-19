@@ -123,10 +123,10 @@ object OsmParser {
 
     val osm_id_map = Map[Long, Long]()
     var edge_buf = ArrayBuffer[Long]()
-    val node_out = dataOutputStream("nodes.bin")
-    val edge_out = dataOutputStream("edges.bin")
-    val dist_out = dataOutputStream("dists.bin")
-    val latlons = dataOutputStream("latlns.bin")
+    val node_out = FileIOController.out("nodes.bin")
+    val edge_out = FileIOController.out("edges.bin")
+    val dist_out = FileIOController.out("dists.bin")
+    val latlons = FileIOController.out("latlns.bin")
     var id: Long = 0
 
     for (e <- edges) {  // build adjacency array
@@ -161,11 +161,6 @@ object OsmParser {
 
     println("          Done.\n")
   }
-
-  def dataOutputStream(file: String) =  {
-    new DataOutputStream(new FileOutputStream(new File(file)))
-  }
-
 
   def dist(from: Node, to: Node): Int = {
     val lat1 = toRadians(from.lat)

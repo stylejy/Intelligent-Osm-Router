@@ -74,6 +74,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         val saveFile = new File("osmdata/data.osm")
         Ok(fileParams("map").write(saveFile))
         OsmParser.run
+        PathWriter.update
         redirect("/")
 
       case _ =>

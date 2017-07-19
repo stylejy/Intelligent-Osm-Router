@@ -26,10 +26,18 @@ import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 object PathWriter {
   val latlon = ArrayBuffer[LatLon]()
   case class LatLon(lat:Float, lon:Float)
-  val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
-  while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
-
   case class latlonModel(lat: Double, lon: Double)
+  var in = FileIOController.in("latlns.bin")
+  makeLatlon
+
+  println("test")
+
+  def update = {
+    //To prevent this object from writing wring Json results.
+    latlon.clear()
+    in = FileIOController.in("latlns.bin")
+    makeLatlon
+  }
 
   def write(path: List[Int]): ListBuffer[latlonModel] = {
     var pathOut = new ListBuffer[latlonModel]
@@ -39,4 +47,6 @@ object PathWriter {
     println("****************************************" + pathOut)
     pathOut
   }
+
+  def makeLatlon = {while(in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }}
 }
