@@ -17,8 +17,6 @@
 
 package com.github.stylejy.app
 
-import java.io.{DataInputStream, File, FileInputStream}
-
 import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map}
 import Graph.Node
 
@@ -27,19 +25,11 @@ import Graph.Node
   */
 class AlgoDijkstra(source: Int, target: Int) {
   def run {
-
-    //For testing. This part is the same as one in KmlWriter
-    val latlon = ArrayBuffer[LatLon]()
-    case class LatLon(lat:Float, lon:Float)
-    val in = new DataInputStream(new FileInputStream(new File("latlns.bin")))
-    while (in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }
-    //End testing code.
-
     val Q = new AlgoBinaryHeap()
     /** Q.insert will label coordinates with new ids. After this point,
       * OSM ids are no longer used.
       */
-    Q.insert(Node(source, dist = 0))
+    Q.insert(Node.apply(source, dist = 0))
 
     while (!Q.isEmpty) {
 

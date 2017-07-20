@@ -54,14 +54,15 @@ object Graph extends VariableCleaner{
     //def relaxed = index >= +1
 
     def foreach_outgoing(fun: (Int,Int) => Unit) {
-        for (i <- node_array(id.toInt) until node_array((id+1))) {
-          //println("                foreach_outgoing Node id = " + i)
+      println("                This turn is for id = " + id)
+        for (i <- node_array(id.toInt) until node_array(id+1)) {
+          println("                foreach_outgoing Node id = " + i)
           fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
         }
     }
   }
 
   object Node {
-    def apply(id: Int, dist: Int = Int.MaxValue)  = new Node(id, dist, null, 0)
+    def apply(id: Int, dist: Int = Int.MaxValue) = new Node(id, dist, null, 0)
   }
 }

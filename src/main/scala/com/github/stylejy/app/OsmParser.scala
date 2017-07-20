@@ -18,15 +18,13 @@
 package com.github.stylejy.app
 
 import scala.math._
-import java.io._
-
 import scala.xml.{Elem, XML}
 import scala.collection.mutable.Map
 import scala.collection.mutable.ArrayBuffer
 
-object OsmParser extends VariableCleaner{
+object OsmParser extends VariableCleaner {
 
-  private var nodes: Map[Long, Node] = Map()
+  private val nodes: Map[Long, Node] = Map()
   private var edges: ArrayBuffer[Edge] = ArrayBuffer()
 
   case class Node(lat:Float, lon:Float)
@@ -51,8 +49,6 @@ object OsmParser extends VariableCleaner{
   }
 
   private def readNodes(xml: Elem) = {
-    //To prevent binary files accumulated every time the map is updated.
-    //nodes.empty
     println("\n -> reading nodes..")
     println(xml)
     (xml \ "node") foreach { (node) =>
@@ -67,8 +63,6 @@ object OsmParser extends VariableCleaner{
   }
 
   private def readWays(xml: Elem) = {
-    //To prevent binary files accumulated every time the map is updated.
-    //edges.clear()
     println(" -> reading ways...")
 
     (xml \ "way") foreach { (way) =>
@@ -100,7 +94,9 @@ object OsmParser extends VariableCleaner{
       }
 
       if (speed > 0) {
-        val ids = way\"nd" map { (nd) => ((nd\"@ref").text.toLong)}
+        println(way\"nd")
+        val ids = (way\"nd").map((nd) => ((nd\"@ref").text.toLong))
+        println(way\"nd")
         for ((u,v) <- ids zip ids.tail) {
           edges += Edge(u, v, dist(Long2Node(u),Long2Node(v)))
           edges += Edge(v, u, dist(Long2Node(v),Long2Node(u)))
@@ -154,7 +150,7 @@ object OsmParser extends VariableCleaner{
     println("edge_buf original: " + edge_buf)
 
     /** replace osm ids with adjacency array ids */
-    edge_buf = edge_buf map osm_id_map
+    edge_buf = edge_buf.map(osm_id_map)
 
     println("edge_buf replaced: " + edge_buf)
 
