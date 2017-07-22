@@ -33,32 +33,35 @@ class AlgoDijkstra(source: Int, target: Int) {
 
     while (!Q.isEmpty) {
 
-      //println("Q: " + Q.heap)
       var node = Q.extractMin // now settled.
-
-      //println("node id " + node.id + " in AlgoDijkstra ---> node: " + node)
-      //println("******** short node id: " + node.id + " -> osm node id: ")
+      println()
+      println("----------------------------------------------- Chosen node id: " + node.id)
 
       if (node.id == target) { //are we already done?
         println("PATH FOUND (searched "+spt.size+" nodes)")
         return
       }
 
-      node.foreach_outgoing { (neighbour , weight) => // relaxation
+      node.foreach_outgoing(
+        {
+          /**
+            * This function block finds next neighbours.
+            */
+          (neighbour , weight) => // relaxation
+            println("neighbour id: " + neighbour.id + " weight " + weight)
+            if (neighbour.dist > node.dist + weight) {
+              neighbour.dist = node.dist + weight
+              neighbour.pred = node //predecessor
+              println("Predecessor id: " + neighbour.pred.id)
 
-        //println("neighbour: " + neighbour + " weight " + weight)
-        if (neighbour.dist > node.dist + weight) {
-
-          neighbour.dist = node.dist + weight
-          neighbour.pred = node //predecessor
-
-          if (neighbour.visited) //before
-            Q.decreaseKey(neighbour)
-          else // first time seen
-            Q.insert(neighbour)
-
+             if (neighbour.visited) //before
+              Q.decreaseKey(neighbour)
+             else // first time seen
+              Q.insert(neighbour)
+            }
         }
-      }
+      )
+      println("-----------------------------------------------")
     }
     println("NO PATH FOUND! (searched "+spt.size+" nodes)")
   }

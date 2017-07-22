@@ -110,7 +110,9 @@ object OsmParser extends VariableCleaner {
   private def sortEdges = {
     println(" -> sorting edges..")
 
+    println("before edges: " + edges)
     edges = edges.sortWith(_.from < _.from)
+    println("after edges: " + edges)
 
     println("          Done.")
   }
@@ -119,19 +121,20 @@ object OsmParser extends VariableCleaner {
   private def writeFiles = {
     println(" -> writing file...")
 
-    val osm_id_map = Map[Long, Long]()
-    var edge_buf = ArrayBuffer[Long]()
-    val node_out = FileIOController.out("nodes.bin")
-    val edge_out = FileIOController.out("edges.bin")
-    val dist_out = FileIOController.out("dists.bin")
+    val osm_id_map = Map[Long, Int]()
+    var edgeBufferLong = ArrayBuffer[Long]()
+    var edgeBufferInt = ArrayBuffer[Int]()
+    val nodeOut = FileIOController.out("nodes.bin")
+    val edgeOut = FileIOController.out("edges.bin")
+    val distOut = FileIOController.out("dists.bin")
     val latlons = FileIOController.out("latlns.bin")
     var id: Long = 0
 
     for (e <- edges) {  // build adjacency array
       if (e.from != id) {
         id = e.from
-        node_out.writeInt(edge_buf.size)
-        //println("\n\n\nedge_buf.size : "+edge_buf.size)
+        nodeOut.writeInt(edgeBufferLong.size)
+        println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
         osm_id_map(id) = osm_id_map.size
         nodes.get(e.from) match {
           case Some(node) =>
@@ -141,21 +144,22 @@ object OsmParser extends VariableCleaner {
           case None =>
         }
       }
-      dist_out.writeInt(e.dist)   // write dists
-      edge_buf += e.to     // collect edge array
+      distOut.writeInt(e.dist)   // write dists
+      edgeBufferLong += e.to     // collect edge array
     }
 
-    node_out.writeInt(edge_buf.size)
+    nodeOut.writeInt(edgeBufferLong.size)
+    println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
 
-    println("edge_buf original: " + edge_buf)
+    println("edgeBufferLong original: " + edgeBufferLong)
 
     /** replace osm ids with adjacency array ids */
-    edge_buf = edge_buf.map(osm_id_map)
+    edgeBufferInt = edgeBufferLong.map(osm_id_map)
 
-    println("edge_buf replaced: " + edge_buf)
+    println("edgeBufferLong replaced with edgeBufferInt: " + edgeBufferInt)
 
     //  write edge array to adjacency array file
-    edge_buf foreach (edge_out.writeLong)
+    edgeBufferInt foreach (edgeOut.writeInt)
 
     println("          Done.\n")
   }

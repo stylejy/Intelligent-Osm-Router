@@ -89,7 +89,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   get("/path") {
     Graph.load()
     val start = System.currentTimeMillis()
-    val path = new AlgoDijkstra(5, 12).getPath
+    val path = new AlgoDijkstra(4, 10).getPath
     println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
 
     contentType = formats("json")

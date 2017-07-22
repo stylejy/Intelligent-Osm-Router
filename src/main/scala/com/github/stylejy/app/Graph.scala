@@ -26,6 +26,7 @@ object Graph extends VariableCleaner{
   val edge_array = ArrayBuffer[Int]()
   val dist_array = ArrayBuffer[Int]()
 
+
   def resetVars = {
     resetVariable(node_array)
     resetVariable(edge_array)
@@ -36,15 +37,15 @@ object Graph extends VariableCleaner{
     resetVars
     print("loading graph..")
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
-    while (nodes.available != 0) {
-      node_array += nodes.readInt
-      //println("Nodes : " + node_array)
-    }
+    while (nodes.available != 0) { node_array += nodes.readInt }
+
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
-    while (edges.available != 0) { edge_array += edges.readInt }
+    while (edges.available != 0) { edge_array += edges.readInt
+      println("edge_array : " + edge_array)
+    }
+
     val dists = new DataInputStream(new FileInputStream(new File("dists.bin")))
     while (dists.available != 0) { dist_array += dists.readInt }
-    //println("  ("+node_array.size+" nodes, "+edge_array.size+" edges) Done.\n")
   }
 
 
@@ -54,11 +55,14 @@ object Graph extends VariableCleaner{
     //def relaxed = index >= +1
 
     def foreach_outgoing(fun: (Int,Int) => Unit) {
-      println("                This turn is for id = " + id)
-        for (i <- node_array(id.toInt) until node_array(id+1)) {
-          println("                foreach_outgoing Node id = " + i)
-          fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
-        }
+      println("!!!!!!!!!!!!final node_array: " + node_array)
+      println("!!!!!!!!!!!!final edge_array: " + edge_array)
+      println("!!!!!!!!!!!!node_array id: " + node_array(id))
+      println("!!!!!!!!!!!!node_array id: " + node_array(id+1))
+      for (i <- node_array(id.toInt) until node_array(id+1)) {
+        println("!!!!!!!!!!!!i: " + i)
+        fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
+      }
     }
   }
 
