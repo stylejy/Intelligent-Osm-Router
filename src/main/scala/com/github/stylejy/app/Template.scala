@@ -4,7 +4,7 @@ import scala.xml.{Text, Node}
 
 object Template {
 
-  def page(title:String, content:Seq[Node], url: String => String = identity _, head: Seq[Node] = Nil, scripts: Seq[String] = Seq.empty, defaultScripts: Seq[String] = Seq("osmTools.js")) = {
+  def page(title:String, content:Seq[Node], url: String => String = identity _, head: Seq[Node] = Nil, foot: Seq[Node] = Nil, scripts: Seq[String] = Seq.empty, defaultScripts: Seq[String] = Seq("osmTools.js")) = {
     <html lang="en">
       <head>
         <title>{ title }</title>
@@ -13,49 +13,43 @@ object Template {
         <meta name="description" content="" />
         <meta name="author" content="" />
 
-        <!-- Le styles -->
-        <link href="/assets/css/bootstrap.css" rel="stylesheet" />
-        <link href="/assets/css/bootstrap-responsive.css" rel="stylesheet" />
-        <link href="/assets/css/syntax.css" rel="stylesheet" />
-        <link href="/assets/css/scalatra.css" rel="stylesheet" />
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" />
+        <!-- Optional theme -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous" />
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <link href="/assets/css/PageStyle.css" rel="stylesheet" />
 
-        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-          <![endif]-->
         {head}
       </head>
 
       <body>
         <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="navbar-inner">
-            <div class="container">
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </a>
-              <a class="brand" href="/">HOME</a>
-              <div class="nav-collapse collapse">
-
-              </div><!--/.nav-collapse -->
+          <div class="container">
+            <div class="navbar-header">
+              <a class="navbar-brand" href="/"><p class="header-content">{ title }</p></a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+              <ul class="nav navbar-nav navbar-right">
+                <li><a class="header-content">JooYoung Lee, MSc Advanced Computing</a></li>
+              </ul>
             </div>
           </div>
         </div>
 
-        <div class="container">
-          <div class="content">
-            <div class="page-header">
-              <h1>{ title }</h1>
-            </div>
-            {content}
-            <hr/>
-          </div> <!-- /content -->
-        </div> <!-- /container -->
+        <div class="container" id="map">
+          {content}
+        </div>
 
-        <!-- Le javascript
-            ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
+        <div class="navbar navbar-inverse navbar-fixed-bottom">
+          <div class="container" id="controller">
+              {foot}
+              <p>Test</p>
+          </div>
+        </div>
+
+        <!-- javascript -->
         { (defaultScripts ++ scripts) map { pth =>
         <script type="text/javascript" src={pth}></script>
       } }

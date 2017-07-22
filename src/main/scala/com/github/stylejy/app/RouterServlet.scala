@@ -25,22 +25,8 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
       XML.loadFile("osmdata/data.osm")
       displayPageWithHead(
         <!-- content -->
-        <h3>
-          ----> OSM data is ready to use in the server.
-        </h3>
           <div id="map"></div>
-          <script src="LeafletController.js"></script>
-
-        <p>
-          ( If you want to update, you can used the update form below. )
-        </p>
-        <p>
-          Update:
-        </p>
-          <form action={url("/")} method="post" enctype="multipart/form-data">
-            <p>File to update: <input type="file" name="map" /></p>
-            <p><input type="submit" value="Update" /></p>
-          </form>
+          <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
           <link rel="stylesheet" href="leaflet/leaflet.css"/>
@@ -94,5 +80,20 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
     contentType = formats("json")
     PathWriter.write(path)
+  }
+
+  get("/update") {
+    displayPage(
+      <p>
+        ( If you want to update, you can used the update form below. )
+      </p>
+        <p>
+          Update:
+        </p>
+        <form action={url("/")} method="post" enctype="multipart/form-data">
+          <p>File to update: <input type="file" name="map" /></p>
+          <p><input type="submit" value="Update" /></p>
+        </form>
+    )
   }
 }
