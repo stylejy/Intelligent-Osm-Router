@@ -46,7 +46,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <h3>
             ----> Upload an OSM file to store in the server.
           </h3>
-            <form action={url("/")} method="post" enctype="multipart/form-data">
+            <form action={url("/update")} method="post" enctype="multipart/form-data">
               <p>File to upload: <input type="file" name="map" /></p>
               <p><input type="submit" value="Upload" /></p>
             </form>
@@ -55,7 +55,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   }
 
-  post("/") {
+  post("/update") {
 
     //Define a regex pattern to identify osm files.
     val pattern = "\\w.osm".r
@@ -82,7 +82,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   get("/path") {
     Graph.load()
     val start = System.currentTimeMillis()
-    val path = new AlgoDijkstra(4, 10).getPath
+    val path = new AlgoDijkstra(1, 2).getPath
     println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
 
     contentType = formats("json")
@@ -97,7 +97,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         <p>
           Update:
         </p>
-        <form action={url("/")} method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data">
           <p>File to update: <input type="file" name="map" /></p>
           <p><input type="submit" value="Update" /></p>
         </form>
