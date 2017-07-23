@@ -15,7 +15,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   var isAvailable = false
   def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
-  def displayPageWithHead(content: Seq[Node], head: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head)
+  def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head, foot)
 
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
@@ -28,12 +28,17 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <script src="/assets/js/MapSizeController.js"></script>
           <div id="leaflet"></div>
           <script type="text/javascript">mapHeight()</script>
+          <script src="/assets/js/LeafletInitializer.js"></script>
           <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
           <link rel="stylesheet" href="leaflet/leaflet.css"/>
           <script src="leaflet/leaflet.js"></script>
             <link href="PageStyle.css" rel="stylesheet" />
+        ,
+        <!-- foot -->
+          <p id="source">Source</p>
+          <p id="target">Target</p>
       )
     } catch {
       case e: FileNotFoundException =>

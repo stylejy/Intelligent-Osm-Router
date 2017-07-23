@@ -44,7 +44,6 @@ object Template {
 
         <footer class="container-fluid text-center navbar-fixed-bottom" id="controller">
           {foot}
-          <p id="test">Thanks God for All :D</p>
         </footer>
 
         <!-- javascript -->
