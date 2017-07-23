@@ -24,7 +24,7 @@ object Template {
         {head}
       </head>
 
-      <body>
+      <body onresize="mapHeight()">
         <div class="navbar navbar-inverse navbar-fixed-top">
           <div class="container">
             <div class="navbar-header">
@@ -42,12 +42,10 @@ object Template {
           {content}
         </div>
 
-        <div class="navbar navbar-inverse navbar-fixed-bottom">
-          <div class="container" id="controller">
-              {foot}
-              <p>Test</p>
-          </div>
-        </div>
+        <footer class="container-fluid text-center navbar-fixed-bottom" id="controller">
+          {foot}
+          <p id="test">Thanks God for All :D</p>
+        </footer>
 
         <!-- javascript -->
         { (defaultScripts ++ scripts) map { pth =>

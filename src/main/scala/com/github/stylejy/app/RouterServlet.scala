@@ -25,7 +25,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
       XML.loadFile("osmdata/data.osm")
       displayPageWithHead(
         <!-- content -->
-          <div id="map"></div>
+          <script src="/assets/js/MapSizeController.js"></script>
+          <div id="leaflet"></div>
+          <script type="text/javascript">mapHeight()</script>
           <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
