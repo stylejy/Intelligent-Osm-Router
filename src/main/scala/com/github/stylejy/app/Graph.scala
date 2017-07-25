@@ -22,30 +22,36 @@ import scala.collection.mutable.{Map, ArrayBuffer}
 
 object Graph extends VariableCleaner{
 
-  val node_array = ArrayBuffer[Int]()
-  val edge_array = ArrayBuffer[Int]()
-  val dist_array = ArrayBuffer[Int]()
+  val nodeArray = ArrayBuffer[Int]()
+  val originalNodeIds = ArrayBuffer[Long]()
+  val edgeArray = ArrayBuffer[Int]()
+  val distArray = ArrayBuffer[Int]()
 
 
   def resetVars = {
-    resetVariable(node_array)
-    resetVariable(edge_array)
-    resetVariable(dist_array)
+    resetVariable(nodeArray)
+    resetVariable(edgeArray)
+    resetVariable(distArray)
   }
 
   def load() {
     resetVars
     print("loading graph..")
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
-    while (nodes.available != 0) { node_array += nodes.readInt }
+    while (nodes.available != 0) {
+      nodeArray += nodes.readInt
+      println("short Node Ids " + nodeArray)
+      originalNodeIds += nodes.readLong
+      println("original Node Ids " + originalNodeIds)
+    }
 
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
-    while (edges.available != 0) { edge_array += edges.readInt
-      println("edge_array : " + edge_array)
+    while (edges.available != 0) { edgeArray += edges.readInt
+      println("edge_array : " + edgeArray)
     }
 
     val dists = new DataInputStream(new FileInputStream(new File("dists.bin")))
-    while (dists.available != 0) { dist_array += dists.readInt }
+    while (dists.available != 0) { distArray += dists.readInt }
   }
 
 
@@ -55,13 +61,13 @@ object Graph extends VariableCleaner{
     //def relaxed = index >= +1
 
     def foreach_outgoing(fun: (Int,Int) => Unit) {
-      println("!!!!!!!!!!!!final node_array: " + node_array)
-      println("!!!!!!!!!!!!final edge_array: " + edge_array)
-      println("!!!!!!!!!!!!node_array id: " + node_array(id))
-      println("!!!!!!!!!!!!node_array id: " + node_array(id+1))
-      for (i <- node_array(id.toInt) until node_array(id+1)) {
+      println("!!!!!!!!!!!!final node_array: " + nodeArray)
+      println("!!!!!!!!!!!!final edge_array: " + edgeArray)
+      println("!!!!!!!!!!!!node_array id: " + nodeArray(id))
+      println("!!!!!!!!!!!!node_array id: " + nodeArray(id+1))
+      for (i <- nodeArray(id.toInt) until nodeArray(id+1)) {
         println("!!!!!!!!!!!!i: " + i)
-        fun(edge_array(i.toInt), dist_array(i.toInt))  // call function foreach neighbour
+        fun(edgeArray(i.toInt), distArray(i.toInt))  // call function foreach neighbour
       }
     }
   }

@@ -133,7 +133,8 @@ object OsmParser extends VariableCleaner {
     for (e <- edges) {  // build adjacency array
       if (e.from != id) {
         id = e.from
-        nodeOut.writeInt(edgeBufferLong.size)
+        buildNodeFile
+
         println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
         osm_id_map(id) = osm_id_map.size
         nodes.get(e.from) match {
@@ -148,9 +149,8 @@ object OsmParser extends VariableCleaner {
       edgeBufferLong += e.to     // collect edge array
     }
 
-    nodeOut.writeInt(edgeBufferLong.size)
+    buildNodeFile
     println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
-
     println("edgeBufferLong original: " + edgeBufferLong)
 
     /** replace osm ids with adjacency array ids */
@@ -162,6 +162,18 @@ object OsmParser extends VariableCleaner {
     edgeBufferInt foreach (edgeOut.writeInt)
 
     println("          Done.\n")
+
+    def buildNodeFile = {
+      /** To make a list to indicate corresponding values in edgeArray
+        * e.g. If the chosen node is 1,
+        * find the second value (because array starts from 0) in nodeArray and also the third value.
+        * Let's say that they 3 and 5, respectively, then, we take third value and fourth value(5-1) in edgeArray.
+        * The values taken from edgeArray represent the chosen node's neighbours.
+        * One of the neighbours should be chosen to iterate until we find a target node or iterate all nodes*/
+      nodeOut.writeInt(edgeBufferLong.size)
+      //To save original node ids for JSONParser.
+      nodeOut.writeLong(id)
+    }
   }
 
   private def dist(from: Node, to: Node): Int = {

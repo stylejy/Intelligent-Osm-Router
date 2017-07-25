@@ -30,8 +30,6 @@ object PathWriter extends VariableCleaner{
   var in = FileIOController.in("latlns.bin")
   makeLatlon
 
-  println("test")
-
   def update = {
     //To prevent this object from writing wring Json results.
     resetVariable(latlon)
@@ -48,5 +46,8 @@ object PathWriter extends VariableCleaner{
     pathOut
   }
 
-  private def makeLatlon = {while(in.available != 0) { latlon += LatLon(in.readFloat,in.readFloat) }}
+  private def makeLatlon = {while(in.available != 0) {
+    latlon += LatLon(in.readFloat,in.readFloat)
+    println("latlon: " + latlon)
+  }}
 }

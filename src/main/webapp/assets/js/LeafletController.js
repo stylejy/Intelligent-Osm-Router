@@ -36,12 +36,14 @@ function clickSourceButton() {
     isSourceFixed = true;
     document.getElementById("source").innerHTML
         = shapeCoordinates() + '&nbsp&nbsp&nbsp<button type=button id=changeSource class="btn btn-warning btn-xs">Source Point Fixed</button>';
+    sendLatlngToServer(coordinates.lat, coordinates.lng);
 }
 
 function clickTargetButton() {
     isTargetFixed = true;
     document.getElementById("target").innerHTML
         = shapeCoordinates() + '&nbsp&nbsp&nbsp<button type=button id=changeTarget class="btn btn-warning btn-xs">Target Point Point</button>';
+    sendLatlngToServer(coordinates.lat, coordinates.lng);
 }
 
 function markerController() {
@@ -68,3 +70,10 @@ function markerController() {
         }
     }
 }
+
+function sendLatlngToServer(lat, lng) {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/overpass?lat=" + lat + "&lng=" + lng, true);
+    request.send();
+}
+

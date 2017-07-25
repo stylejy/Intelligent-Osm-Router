@@ -9,7 +9,6 @@ object MainController {
   }
 
   def run = {
-    OsmParser.run
-    Graph.load
+    //JSONParser.test(0,0)
   }
 }

@@ -35,6 +35,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <link rel="stylesheet" href="leaflet/leaflet.css"/>
           <script src="leaflet/leaflet.js"></script>
             <link href="PageStyle.css" rel="stylesheet" />
+          <script src="leaflet.geometryutil.js"></script>
         ,
         <!-- foot -->
           <p id="source">Source</p>
@@ -102,5 +103,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <p><input type="submit" value="Update" /></p>
         </form>
     )
+  }
+
+  get("/overpass") {
+    JSONParser.run(params("lat").toDouble, params("lng").toDouble)
   }
 }
