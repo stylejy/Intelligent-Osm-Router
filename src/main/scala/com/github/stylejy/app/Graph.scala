@@ -30,6 +30,7 @@ object Graph extends VariableCleaner{
 
   def resetVars = {
     resetVariable(nodeArray)
+    resetVariable(originalNodeIds)
     resetVariable(edgeArray)
     resetVariable(distArray)
   }
@@ -44,6 +45,8 @@ object Graph extends VariableCleaner{
       originalNodeIds += nodes.readLong
       println("original Node Ids " + originalNodeIds)
     }
+    /**Every time new nodes are loaded, nodeIds in JSONParser also should be updated. */
+    JSONParser.nodeIds = originalNodeIds
 
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
     while (edges.available != 0) { edgeArray += edges.readInt

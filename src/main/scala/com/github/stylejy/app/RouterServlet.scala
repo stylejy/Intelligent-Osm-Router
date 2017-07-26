@@ -14,13 +14,21 @@ import org.scalatra.json._
 class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport with FlashMapSupport with JacksonJsonSupport {
 
   var isAvailable = false
+  var isReady = false
+  var sourcePosition: Int = -1
+  var targetPosition: Int = -1
   def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
   def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head, foot)
 
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
-  get("/") {
+  def resetPositions: Unit = {
+    sourcePosition = -1
+    targetPosition = -1
+  }
 
+  get("/") {
+    resetPositions
     try {
       XML.loadFile("osmdata/data.osm")
       displayPageWithHead(
@@ -32,14 +40,15 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
-          <link rel="stylesheet" href="leaflet/leaflet.css"/>
+            <link rel="stylesheet" href="leaflet/leaflet.css"/>
           <script src="leaflet/leaflet.js"></script>
-            <link href="PageStyle.css" rel="stylesheet" />
+            <link href="PageStyle.css" rel="stylesheet"/>
           <script src="leaflet.geometryutil.js"></script>
         ,
         <!-- foot -->
           <p id="source">Source</p>
           <p id="target">Target</p>
+          <div id="getpath"></div>
       )
     } catch {
       case e: FileNotFoundException =>
@@ -69,6 +78,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         Ok(fileParams("map").write(saveFile))
         OsmParser.run
         PathWriter.update
+        Graph.load()
         redirect("/")
 
       case _ =>
@@ -81,13 +91,16 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/path") {
-    Graph.load()
-    val start = System.currentTimeMillis()
-    val path = new AlgoDijkstra(1, 2).getPath
-    println((System.currentTimeMillis()-start)+"ms  ("+path.size+" nodes)\n")
+    println("path path")
+    println("path source: " + sourcePosition + "  target: " + targetPosition)
+    if (sourcePosition > 0 && targetPosition > 0) {
+      val start = System.currentTimeMillis()
+      val path = new AlgoDijkstra(sourcePosition, targetPosition).getPath
+      println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
 
-    contentType = formats("json")
-    PathWriter.write(path)
+      contentType = formats("json")
+      PathWriter.write(path)
+    }
   }
 
   get("/update") {
@@ -106,6 +119,13 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/overpass") {
-    JSONParser.run(params("lat").toDouble, params("lng").toDouble)
+    if (sourcePosition < 0) {
+      Graph.load()
+      sourcePosition = JSONParser.run(params("lat").toDouble, params("lng").toDouble)
+      println("source: " + sourcePosition + "  target: " + targetPosition)
+    } else {
+      targetPosition = JSONParser.run(params("lat").toDouble, params("lng").toDouble)
+      println("source: " + sourcePosition + "  target: " + targetPosition)
+    }
   }
 }

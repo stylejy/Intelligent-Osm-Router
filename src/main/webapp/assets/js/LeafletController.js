@@ -42,7 +42,10 @@ function clickSourceButton() {
 function clickTargetButton() {
     isTargetFixed = true;
     document.getElementById("target").innerHTML
-        = shapeCoordinates() + '&nbsp&nbsp&nbsp<button type=button id=changeTarget class="btn btn-warning btn-xs">Target Point Point</button>';
+        = shapeCoordinates()
+        + '&nbsp&nbsp&nbsp<button type=button id=changeTarget class="btn btn-warning btn-xs">Target Point Point</button>';
+    document.getElementById("getpath").innerHTML = '<button type=button id=getPathBtn class="btn btn-primary btn-xs">->Get the path!</button>'
+    document.getElementById("getPathBtn").addEventListener("click", getPath);
     sendLatlngToServer(coordinates.lat, coordinates.lng);
 }
 
@@ -77,3 +80,25 @@ function sendLatlngToServer(lat, lng) {
     request.send();
 }
 
+function getPath() {
+    //To get path raw data
+    var request = new XMLHttpRequest();
+    request.open("GET", "/path", true);
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            if (request.status == 200 || request.status == 0) {
+                var jsontext = request.responseText;
+                var result = JSON.parse(jsontext);
+
+                var latlngs = [result];
+                //alert("latlng" + latlngs);
+                var polyline = L.polyline(latlngs, {color: 'green', opacity: 0.5}).addTo(mymap);
+                // zoom the map to the polyline
+                mymap.fitBounds(polyline.getBounds());
+            }
+        }
+
+    };
+
+    request.send();
+}

@@ -31,7 +31,6 @@ object PathWriter extends VariableCleaner{
   makeLatlon
 
   def update = {
-    //To prevent this object from writing wring Json results.
     resetVariable(latlon)
     in = FileIOController.in("latlns.bin")
     makeLatlon
