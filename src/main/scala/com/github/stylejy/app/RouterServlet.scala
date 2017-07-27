@@ -28,6 +28,10 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/") {
+    if (!isReady) {
+      Graph.load()
+      isReady = true
+    }
     resetPositions
     try {
       XML.loadFile("osmdata/data.osm")
@@ -48,7 +52,8 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         <!-- foot -->
           <p id="source">Source</p>
           <p id="target">Target</p>
-          <div id="getpath"></div>
+          <div id="getpath">
+          </div>
       )
     } catch {
       case e: FileNotFoundException =>
@@ -120,7 +125,6 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   get("/overpass") {
     if (sourcePosition < 0) {
-      Graph.load()
       sourcePosition = JSONParser.run(params("lat").toDouble, params("lng").toDouble)
       println("source: " + sourcePosition + "  target: " + targetPosition)
     } else {
