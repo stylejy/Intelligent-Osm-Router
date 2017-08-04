@@ -33,6 +33,7 @@ class AlgoDijkstra(source: Int, target: Int) {
 
     while (!Q.isEmpty) {
 
+      println("£££ heap: " + Q.heap)
       var node = Q.extractMin // now settled.
       println()
       println("----------------------------------------------- Chosen node id: " + node.id)
@@ -45,12 +46,12 @@ class AlgoDijkstra(source: Int, target: Int) {
       node.foreach_outgoing(
         {
           /**
-            * This function block finds next neighbours.
+            * This function block finds neighbours.
             */
           (neighbour , weight) => // relaxation
             println("neighbour id: " + neighbour.id + " weight " + weight)
             if (neighbour.dist > node.dist + weight) {
-              neighbour.dist = node.dist + weight
+              neighbour.dist = node.dist + weight //Update the neighbour's distance with the shorter distance found
               neighbour.pred = node //predecessor
               println("Predecessor id: " + neighbour.pred.id)
 

@@ -27,6 +27,7 @@ class AlgoBinaryHeap {
   class BackingArray[A] extends java.util.ArrayList[A] {
     override def get(index: Int): A = super.get(index - 1)
     override def set(index: Int, value: A): A = super.set(index - 1, value)
+    override def remove(index: Int): A = super.remove(index - 1)
   }
 
   val heap = new BackingArray[Node]()
@@ -50,11 +51,11 @@ class AlgoBinaryHeap {
   def extractMin = {
     val min = heap.get(1)
     if (heap.size > 1) {
-      val temp = heap.remove(heap.size()-1)
+      val temp = heap.remove(heap.size())
       heap.set(1, temp)
       temp.index = 1
       bubbleDown(1)
-    } else heap.remove(0)
+    } else heap.remove(1)
     min.index = -1 // settled
     min
   }
