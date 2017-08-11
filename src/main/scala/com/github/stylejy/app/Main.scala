@@ -3,7 +3,7 @@ package com.github.stylejy.app
 /**
   * Created by stylejy on 15/06/2017.
   */
-object MainController {
+object Main {
   def main(args: Array[String]): Unit = {
     run
   }

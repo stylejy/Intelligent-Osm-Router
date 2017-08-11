@@ -17,9 +17,9 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app
+package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
-import Graph.Node
+import com.github.stylejy.app.ParseSystem.Osm.Graph.Node
 /**
   * Created by stylejy on 17/06/2017.
   */

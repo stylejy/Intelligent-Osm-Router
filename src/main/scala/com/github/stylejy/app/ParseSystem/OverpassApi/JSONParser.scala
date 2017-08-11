@@ -1,12 +1,13 @@
-package com.github.stylejy.app
+package com.github.stylejy.app.ParseSystem.OverpassApi
 
-import com.github.stylejy.app.PathWriter.LatLon
+import com.github.stylejy.app.Helpers.System.VariableCleanHelper
+import com.github.stylejy.app.PathPlanningSystem.PathWriter
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import scala.collection.mutable.{ArrayBuffer, Map}
 
-object JSONParser extends VariableCleaner{
+object JSONParser extends VariableCleanHelper{
   implicit lazy val formats = DefaultFormats
   var ways = Map[Long,List[Long]]()
   var lat: Double = 0

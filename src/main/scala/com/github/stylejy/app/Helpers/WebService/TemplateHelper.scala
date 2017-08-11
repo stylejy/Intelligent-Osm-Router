@@ -1,8 +1,8 @@
-package com.github.stylejy.app
+package com.github.stylejy.app.Helpers.WebService
 
-import scala.xml.{Text, Node}
+import scala.xml.Node
 
-object Template {
+object TemplateHelper {
 
   def page(title:String, content:Seq[Node], url: String => String = identity _, head: Seq[Node] = Nil, foot: Seq[Node] = Nil, scripts: Seq[String] = Seq.empty, defaultScripts: Seq[String] = Seq("osmTools.js")) = {
     <html lang="en">

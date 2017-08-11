@@ -15,10 +15,11 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app
+package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
-import scala.collection.mutable.{ArrayBuffer, ListBuffer, Map}
-import Graph.Node
+import com.github.stylejy.app.ParseSystem.Osm.Graph.Node
+
+import scala.collection.mutable.{ListBuffer, Map}
 
 /**
   * Created by stylejy on 17/06/2017.
@@ -49,7 +50,7 @@ class AlgoDijkstra(source: Int, target: Int) {
             * This function block finds neighbours.
             */
           (neighbour , weight) => // relaxation
-            println("neighbour id: " + neighbour.id + " weight " + weight)
+            println("neighbour id: " + neighbour.id + " dist " + weight)
             if (neighbour.dist > node.dist + weight) {
               neighbour.dist = node.dist + weight //Update the neighbour's distance with the shorter distance found
               neighbour.pred = node //predecessor

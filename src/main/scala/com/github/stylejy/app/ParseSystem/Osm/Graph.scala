@@ -15,12 +15,16 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app
+package com.github.stylejy.app.ParseSystem.Osm
 
-import java.io.{File, FileInputStream, DataInputStream}
-import scala.collection.mutable.{Map, ArrayBuffer}
+import java.io.{DataInputStream, File, FileInputStream}
 
-object Graph extends VariableCleaner{
+import com.github.stylejy.app.Helpers.System.VariableCleanHelper
+import com.github.stylejy.app.ParseSystem.OverpassApi.JSONParser
+
+import scala.collection.mutable.ArrayBuffer
+
+object Graph extends VariableCleanHelper{
 
   val nodeArray = ArrayBuffer[Int]()
   val originalNodeIds = ArrayBuffer[Long]()
@@ -66,10 +70,8 @@ object Graph extends VariableCleaner{
     def foreach_outgoing(fun: (Int,Int) => Unit) {
       println("!!!!!!!!!!!!final node_array: " + nodeArray)
       println("!!!!!!!!!!!!final edge_array: " + edgeArray)
-      println("!!!!!!!!!!!!node_array id: " + nodeArray(id))
-      println("!!!!!!!!!!!!node_array id: " + nodeArray(id+1))
+      println("!!!!!!!!!!!!node_array id: " + nodeArray(id) + " until " + nodeArray(id+1))
       for (i <- nodeArray(id.toInt) until nodeArray(id+1)) {
-        println("!!!!!!!!!!!!i: " + i)
         fun(edgeArray(i.toInt), distArray(i.toInt))  // call function foreach neighbour
       }
     }

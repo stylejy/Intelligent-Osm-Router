@@ -15,24 +15,25 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app
+package com.github.stylejy.app.PathPlanningSystem
 
-import java.io.{DataInputStream, File, FileInputStream}
+import com.github.stylejy.app.Helpers.System.{FileIOHelper, VariableCleanHelper}
+
 import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 /**
   * Created by stylejy on 20/06/2017.
   */
-object PathWriter extends VariableCleaner{
+object PathWriter extends VariableCleanHelper{
   val latlon = ArrayBuffer[LatLon]()
   case class LatLon(lat:Float, lon:Float)
   case class latlonModel(lat: Double, lon: Double)
-  var in = FileIOController.in("latlns.bin")
+  var in = FileIOHelper.in("latlns.bin")
   makeLatlon
 
   def update = {
     resetVariable(latlon)
-    in = FileIOController.in("latlns.bin")
+    in = FileIOHelper.in("latlns.bin")
     makeLatlon
   }
 

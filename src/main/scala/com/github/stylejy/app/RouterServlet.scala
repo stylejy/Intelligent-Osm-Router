@@ -2,6 +2,11 @@ package com.github.stylejy.app
 
 import java.io.{File, FileNotFoundException, Writer}
 
+import com.github.stylejy.app.Helpers.WebService.TemplateHelper
+import com.github.stylejy.app.PathPlanningSystem.PathWriter
+import com.github.stylejy.app.ParseSystem.Osm.{Graph, OsmParser}
+import com.github.stylejy.app.ParseSystem.OverpassApi.JSONParser
+import com.github.stylejy.app.PathPlanningSystem.Algorithms.AlgoDijkstra
 import org.scalatra._
 
 import scala.xml.{Node, XML}
@@ -17,8 +22,8 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   var isReady = false
   var sourcePosition: Int = -1
   var targetPosition: Int = -1
-  def displayPage(content: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_))
-  def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node]) = Template.page("Intelligent-OSM-Router", content, url(_), head, foot)
+  def displayPage(content: Seq[Node]) = TemplateHelper.page("Intelligent-OSM-Router", content, url(_))
+  def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node]) = TemplateHelper.page("Intelligent-OSM-Router", content, url(_), head, foot)
 
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 

@@ -15,14 +15,15 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app
+package com.github.stylejy.app.ParseSystem.Osm
 
+import com.github.stylejy.app.Helpers.System.{FileIOHelper, VariableCleanHelper}
+
+import scala.collection.mutable.{ArrayBuffer, Map}
 import scala.math._
 import scala.xml.{Elem, XML}
-import scala.collection.mutable.Map
-import scala.collection.mutable.ArrayBuffer
 
-object OsmParser extends VariableCleaner {
+object OsmParser extends VariableCleanHelper {
 
   private val nodes: Map[Long, Node] = Map()
   private var edges: ArrayBuffer[Edge] = ArrayBuffer()
@@ -124,10 +125,10 @@ object OsmParser extends VariableCleaner {
     val osm_id_map = Map[Long, Int]()
     var edgeBufferLong = ArrayBuffer[Long]()
     var edgeBufferInt = ArrayBuffer[Int]()
-    val nodeOut = FileIOController.out("nodes.bin")
-    val edgeOut = FileIOController.out("edges.bin")
-    val distOut = FileIOController.out("dists.bin")
-    val latlons = FileIOController.out("latlns.bin")
+    val nodeOut = FileIOHelper.out("nodes.bin")
+    val edgeOut = FileIOHelper.out("edges.bin")
+    val distOut = FileIOHelper.out("dists.bin")
+    val latlons = FileIOHelper.out("latlns.bin")
     var id: Long = 0
 
     for (e <- edges) {  // build adjacency array

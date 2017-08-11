@@ -1,12 +1,11 @@
-package com.github.stylejy.app
+package com.github.stylejy.app.Helpers.System
 
-import scala.collection.mutable.Map
-import scala.collection.mutable.ArrayBuffer
+import scala.collection.mutable.{ArrayBuffer, Map}
 
 /**
   * Created by stylejy on 19/07/2017.
   */
-trait VariableCleaner {
+trait VariableCleanHelper {
 
   def resetVariable[T](inputVar: T) = inputVar match {
       case _: ArrayBuffer[_] => inputVar.asInstanceOf[ArrayBuffer[Any]].clear()
