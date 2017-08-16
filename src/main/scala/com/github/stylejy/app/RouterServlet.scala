@@ -3,10 +3,10 @@ package com.github.stylejy.app
 import java.io.{File, FileNotFoundException, Writer}
 
 import com.github.stylejy.app.Helpers.WebService.TemplateHelper
-import com.github.stylejy.app.PathPlanningSystem.PathWriter
-import com.github.stylejy.app.ParseSystem.Osm.{Graph, OsmParser}
-import com.github.stylejy.app.ParseSystem.OverpassApi.JSONParser
-import com.github.stylejy.app.PathPlanningSystem.Algorithms.AlgoDijkstra
+import com.github.stylejy.app.PathPlanningSystem.{Graph, PathWriter}
+import com.github.stylejy.app.ParserSystem.Osm.OsmParser
+import com.github.stylejy.app.ParserSystem.OverpassApi.JSONParser
+import com.github.stylejy.app.PathPlanningSystem.Algorithms.{AlgoDijkstra, AlgoExplorer}
 import org.scalatra._
 
 import scala.xml.{Node, XML}
@@ -105,7 +105,8 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     println("path source: " + sourcePosition + "  target: " + targetPosition)
     if (sourcePosition > 0 && targetPosition > 0) {
       val start = System.currentTimeMillis()
-      val path = new AlgoDijkstra(sourcePosition, targetPosition).getPath
+      //val path = new AlgoDijkstra(sourcePosition, targetPosition).getPath
+      val path = new AlgoExplorer(sourcePosition, targetPosition, 10).run
       println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
 
       contentType = formats("json")

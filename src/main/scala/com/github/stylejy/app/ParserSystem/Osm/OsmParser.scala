@@ -15,7 +15,7 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app.ParseSystem.Osm
+package com.github.stylejy.app.ParserSystem.Osm
 
 import com.github.stylejy.app.Helpers.System.{FileIOHelper, VariableCleanHelper}
 

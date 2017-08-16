@@ -17,7 +17,7 @@
 
 package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
-import com.github.stylejy.app.ParseSystem.Osm.Graph.Node
+import com.github.stylejy.app.PathPlanningSystem.Graph.Node
 
 import scala.collection.mutable.{ListBuffer, Map}
 
@@ -25,6 +25,7 @@ import scala.collection.mutable.{ListBuffer, Map}
   * Created by stylejy on 17/06/2017.
   */
 class AlgoDijkstra(source: Int, target: Int) {
+
   def run {
     val Q = new AlgoBinaryHeap()
     /** Q.insert will label coordinates with new ids. After this point,
@@ -34,10 +35,10 @@ class AlgoDijkstra(source: Int, target: Int) {
 
     while (!Q.isEmpty) {
 
-      println("£££ heap: " + Q.heap)
+      //println("£££ heap: " + Q.heap)
       var node = Q.extractMin // now settled.
-      println()
-      println("----------------------------------------------- Chosen node id: " + node.id)
+      //println()
+      //println("----------------------------------------------- Chosen node id: " + node.id)
 
       if (node.id == target) { //are we already done?
         println("PATH FOUND (searched "+spt.size+" nodes)")
@@ -50,11 +51,11 @@ class AlgoDijkstra(source: Int, target: Int) {
             * This function block finds neighbours.
             */
           (neighbour , weight) => // relaxation
-            println("neighbour id: " + neighbour.id + " dist " + weight)
+            //println("neighbour id: " + neighbour.id + " dist " + weight)
             if (neighbour.dist > node.dist + weight) {
               neighbour.dist = node.dist + weight //Update the neighbour's distance with the shorter distance found
               neighbour.pred = node //predecessor
-              println("Predecessor id: " + neighbour.pred.id)
+              //println("Predecessor id: " + neighbour.pred.id)
 
              if (neighbour.visited) //before
               Q.decreaseKey(neighbour)
@@ -63,7 +64,7 @@ class AlgoDijkstra(source: Int, target: Int) {
             }
         }
       )
-      println("-----------------------------------------------")
+      //println("-----------------------------------------------")
     }
     println("NO PATH FOUND! (searched "+spt.size+" nodes)")
   }
@@ -80,7 +81,6 @@ class AlgoDijkstra(source: Int, target: Int) {
     path += node.id
     path.toList
   }
-
 
   def getDist = {
     run // alg

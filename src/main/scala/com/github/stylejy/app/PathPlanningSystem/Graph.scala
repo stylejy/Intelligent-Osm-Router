@@ -15,12 +15,12 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package com.github.stylejy.app.ParseSystem.Osm
+package com.github.stylejy.app.PathPlanningSystem
 
 import java.io.{DataInputStream, File, FileInputStream}
 
 import com.github.stylejy.app.Helpers.System.VariableCleanHelper
-import com.github.stylejy.app.ParseSystem.OverpassApi.JSONParser
+import com.github.stylejy.app.ParserSystem.OverpassApi.JSONParser
 
 import scala.collection.mutable.ArrayBuffer
 
@@ -45,16 +45,16 @@ object Graph extends VariableCleanHelper{
     val nodes = new DataInputStream(new FileInputStream(new File("nodes.bin")))
     while (nodes.available != 0) {
       nodeArray += nodes.readInt
-      println("short Node Ids " + nodeArray)
+      //println("short Node Ids " + nodeArray)
       originalNodeIds += nodes.readLong
-      println("original Node Ids " + originalNodeIds)
+      //println("original Node Ids " + originalNodeIds)
     }
     /**Every time new nodes are loaded, nodeIds in JSONParser also should be updated. */
     JSONParser.nodeIds = originalNodeIds
 
     val edges = new DataInputStream(new FileInputStream(new File("edges.bin")))
     while (edges.available != 0) { edgeArray += edges.readInt
-      println("edge_array : " + edgeArray)
+      //println("edge_array : " + edgeArray)
     }
 
     val dists = new DataInputStream(new FileInputStream(new File("dists.bin")))
@@ -68,9 +68,9 @@ object Graph extends VariableCleanHelper{
     //def relaxed = index >= +1
 
     def foreach_outgoing(fun: (Int,Int) => Unit) {
-      println("!!!!!!!!!!!!final node_array: " + nodeArray)
-      println("!!!!!!!!!!!!final edge_array: " + edgeArray)
-      println("!!!!!!!!!!!!node_array id: " + nodeArray(id) + " until " + nodeArray(id+1))
+      //println("!!!!!!!!!!!!final node_array: " + nodeArray)
+      //println("!!!!!!!!!!!!final edge_array: " + edgeArray)
+      //println("!!!!!!!!!!!!node_array id: " + nodeArray(id) + " until " + nodeArray(id+1))
       for (i <- nodeArray(id.toInt) until nodeArray(id+1)) {
         fun(edgeArray(i.toInt), distArray(i.toInt))  // call function foreach neighbour
       }

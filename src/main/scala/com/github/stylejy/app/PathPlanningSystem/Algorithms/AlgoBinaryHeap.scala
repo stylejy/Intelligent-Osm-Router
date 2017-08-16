@@ -19,7 +19,7 @@
 
 package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
-import com.github.stylejy.app.ParseSystem.Osm.Graph.Node
+import com.github.stylejy.app.PathPlanningSystem.Graph.Node
 /**
   * Created by stylejy on 17/06/2017.
   */

@@ -1,4 +1,4 @@
-package com.github.stylejy.app.ParseSystem.OverpassApi
+package com.github.stylejy.app.ParserSystem.OverpassApi
 
 import com.github.stylejy.app.Helpers.System.VariableCleanHelper
 import com.github.stylejy.app.PathPlanningSystem.PathWriter
