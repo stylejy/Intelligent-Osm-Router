@@ -1,11 +1,14 @@
 package com.github.stylejy.app.PathPlanningSystem
 
-import com.github.stylejy.app.Helpers.System.{DataTypeHelper, FileIOHelper, VariableCleanHelper}
+import com.github.stylejy.app.Helpers.System.{FileIOHelper, VariableCleanHelper}
 import com.github.stylejy.app.ParserSystem.JSON.OverpassJSONParser
 
 import scala.collection.mutable.ArrayBuffer
 
-object MapData extends VariableCleanHelper with DataTypeHelper {
+object MapData extends VariableCleanHelper {
+  case class LatLon(lat:Float, lon:Float)
+  case class LatLonModel(lat: Double, lon: Double)
+
   val nodeArray = ArrayBuffer[Int]()
   val originalNodeIds = ArrayBuffer[Long]()
   val edgeArray = ArrayBuffer[Int]()

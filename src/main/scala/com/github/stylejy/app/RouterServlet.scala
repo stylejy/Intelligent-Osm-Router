@@ -1,7 +1,6 @@
 package com.github.stylejy.app
 
 import java.io.{File, FileNotFoundException, Writer}
-
 import com.github.stylejy.app.Helpers.WebService.TemplateHelper
 import com.github.stylejy.app.PathPlanningSystem.{MapData, PathWriter}
 import com.github.stylejy.app.ParserSystem.Osm.OsmParser

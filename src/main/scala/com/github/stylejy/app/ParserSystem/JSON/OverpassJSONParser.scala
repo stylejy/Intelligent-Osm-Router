@@ -1,13 +1,16 @@
 package com.github.stylejy.app.ParserSystem.JSON
 
-import com.github.stylejy.app.Helpers.System.{DataTypeHelper, VariableCleanHelper}
+import com.github.stylejy.app.Helpers.System.VariableCleanHelper
 import com.github.stylejy.app.PathPlanningSystem.MapData
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
 
 import scala.collection.mutable.{ArrayBuffer, Map}
 
-object OverpassJSONParser extends VariableCleanHelper with DataTypeHelper{
+object OverpassJSONParser extends VariableCleanHelper {
+  case class OverpassDetails(id: Long, nodes: List[Long])
+  case class GeoJson(elements: List[OverpassDetails])
+
   /**
     * To extract String values using json4s.
     */
