@@ -19,7 +19,7 @@
 
 package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
-import com.github.stylejy.app.PathPlanningSystem.Graph.Node
+import com.github.stylejy.app.PathPlanningSystem.NodeModel.GraphNode
 /**
   * Created by stylejy on 17/06/2017.
   */
@@ -30,18 +30,18 @@ class AlgoBinaryHeap {
     override def remove(index: Int): A = super.remove(index - 1)
   }
 
-  val heap = new BackingArray[Node]()
+  val heap = new BackingArray[GraphNode]()
 
   def isEmpty: Boolean = heap.isEmpty()
 
-  def insert(node: Node) = {
+  def insert(node: GraphNode) = {
     heap.add(node) // relaxed
     //Index number to show the order.
     node.index = heap.size()
     bubbleUp(node.index)
   }
 
-  def decreaseKey(node: Node) {
+  def decreaseKey(node: GraphNode) {
     if (node.index > 1 && node.dist < heap.get(node.index/2).dist)
       bubbleUp(node.index)
     else

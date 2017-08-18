@@ -18,19 +18,25 @@
 package com.github.stylejy.app.PathPlanningSystem
 
 import com.github.stylejy.app.Helpers.System.VariableCleanHelper
-import com.github.stylejy.app.PathPlanningSystem.MapData.LatLonModel
-import scala.collection.mutable.ListBuffer
 
-/**
-  * Created by stylejy on 20/06/2017.
-  */
-object PathWriter extends VariableCleanHelper{
-  def write(path: List[Int]): ListBuffer[MapData.LatLonModel] = {
-    var pathOut = new ListBuffer[MapData.LatLonModel]
-    for (node <- path) yield {
-      pathOut += LatLonModel(MapData.latlon(node).lat, MapData.latlon(node).lon)
+object NodeModel extends VariableCleanHelper {
+
+  case class GraphNode(val id: Int, var dist: Int, var pred: GraphNode, var index: Int) {
+    def visited = index > 0
+    //def settled = index == -1
+    //def relaxed = index >= +1
+
+    def foreach_outgoing(fun: (Int,Int) => Unit) {
+      //println("!!!!!!!!!!!!final node_array: " + nodeArray)
+      //println("!!!!!!!!!!!!final edge_array: " + edgeArray)
+      //println("!!!!!!!!!!!!node_array id: " + nodeArray(id) + " until " + nodeArray(id+1))
+      for (i <- MapData.nodeArray(id.toInt) until MapData.nodeArray(id+1)) {
+        fun(MapData.edgeArray(i.toInt), MapData.distArray(i.toInt))  // call function foreach neighbour
+      }
     }
-    println("****************************************" + pathOut)
-    pathOut
+  }
+
+  object GraphNode {
+    def apply(id: Int, dist: Int = Int.MaxValue) = new GraphNode(id, dist, null, 0)
   }
 }

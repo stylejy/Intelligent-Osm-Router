@@ -3,10 +3,10 @@ package com.github.stylejy.app
 import java.io.{File, FileNotFoundException, Writer}
 
 import com.github.stylejy.app.Helpers.WebService.TemplateHelper
-import com.github.stylejy.app.PathPlanningSystem.{Graph, PathWriter}
+import com.github.stylejy.app.PathPlanningSystem.{MapData, PathWriter}
 import com.github.stylejy.app.ParserSystem.Osm.OsmParser
-import com.github.stylejy.app.ParserSystem.OverpassApi.JSONParser
-import com.github.stylejy.app.PathPlanningSystem.Algorithms.{AlgoDijkstra, AlgoExplorer}
+import com.github.stylejy.app.ParserSystem.JSON.OverpassJSONParser
+import com.github.stylejy.app.PathPlanningSystem.Algorithms.{AlgoClassic, AlgoExplorer}
 import org.scalatra._
 
 import scala.xml.{Node, XML}
@@ -34,7 +34,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   get("/") {
     if (!isReady) {
-      Graph.load()
+      MapData.load
       isReady = true
     }
     resetPositions
@@ -87,8 +87,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
         val saveFile = new File("osmdata/data.osm")
         Ok(fileParams("map").write(saveFile))
         OsmParser.run
-        PathWriter.update
-        Graph.load()
+        MapData.load
         redirect("/")
 
       case _ =>
@@ -105,8 +104,8 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     println("path source: " + sourcePosition + "  target: " + targetPosition)
     if (sourcePosition > 0 && targetPosition > 0) {
       val start = System.currentTimeMillis()
-      //val path = new AlgoDijkstra(sourcePosition, targetPosition).getPath
-      val path = new AlgoExplorer(sourcePosition, targetPosition, 10).run
+      val path = new AlgoClassic(sourcePosition, targetPosition, 0).getPath
+      //val path = new AlgoExplorer(sourcePosition, targetPosition, 10).run
       println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
 
       contentType = formats("json")
@@ -131,10 +130,10 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   get("/overpass") {
     if (sourcePosition < 0) {
-      sourcePosition = JSONParser.run(params("lat").toDouble, params("lng").toDouble)
+      sourcePosition = OverpassJSONParser.run(params("lat").toDouble, params("lng").toDouble)
       println("source: " + sourcePosition + "  target: " + targetPosition)
     } else {
-      targetPosition = JSONParser.run(params("lat").toDouble, params("lng").toDouble)
+      targetPosition = OverpassJSONParser.run(params("lat").toDouble, params("lng").toDouble)
       println("source: " + sourcePosition + "  target: " + targetPosition)
     }
   }

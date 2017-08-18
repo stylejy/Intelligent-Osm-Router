@@ -20,8 +20,8 @@ package com.github.stylejy.app.ParserSystem.Osm
 import com.github.stylejy.app.Helpers.System.{FileIOHelper, VariableCleanHelper}
 
 import scala.collection.mutable.{ArrayBuffer, Map}
-import scala.math._
 import scala.xml.{Elem, XML}
+import com.github.stylejy.app.Helpers.System.DistanceCalculator.calculator
 
 object OsmParser extends VariableCleanHelper {
 
@@ -99,8 +99,8 @@ object OsmParser extends VariableCleanHelper {
         val ids = (way\"nd").map((nd) => ((nd\"@ref").text.toLong))
         println(way\"nd")
         for ((u,v) <- ids zip ids.tail) {
-          edges += Edge(u, v, dist(Long2Node(u),Long2Node(v)))
-          edges += Edge(v, u, dist(Long2Node(v),Long2Node(u)))
+          edges += Edge(u, v, calculator(u,v))
+          edges += Edge(v, u, calculator(v,u))
         }
       }
     }
@@ -177,20 +177,7 @@ object OsmParser extends VariableCleanHelper {
     }
   }
 
-  private def dist(from: Node, to: Node): Int = {
-    val lat1 = toRadians(from.lat)
-    val lon1 = toRadians(from.lon)
-    val lat2 = toRadians(to.lat)
-    val lon2 = toRadians(to.lon)
-
-
-    ((6378.388f * acos(
-      sin(lat1) * sin(lat2)
-        + cos(lat1) * cos(lat2)
-        * cos(lon2 - lon1)))*1000).toInt
-  }
-
-  private def Long2Node(id:Long): Node =
+  implicit private def Long2Node(id:Long): Node =
     nodes.get(id) match {
       case Some(node) => node
       case None => Node(0f,0f)

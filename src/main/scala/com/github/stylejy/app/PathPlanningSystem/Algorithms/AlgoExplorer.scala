@@ -1,11 +1,11 @@
 package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
 import scala.collection.mutable.ListBuffer
-import com.github.stylejy.app.PathPlanningSystem.Graph.Node
+import com.github.stylejy.app.PathPlanningSystem.NodeModel.GraphNode
 
 class AlgoExplorer(source: Int, target: Int, depth: Int) {
   val optimalPath: List[Int] = getDijkstraPath(source, target)
-  val node = Node
+  val node = GraphNode
   val sourceNodeId = source
   val targetNodeId = target
   val randomPath = ListBuffer[Int]()
@@ -115,6 +115,6 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
   }
 
   private def getDijkstraPath(source: Int, target: Int): List[Int] ={
-    new AlgoDijkstra(source, target).getPath
+    new AlgoClassic(source, target, 0).getPath
   }
 }
