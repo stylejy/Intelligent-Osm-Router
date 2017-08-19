@@ -1,14 +1,14 @@
 package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
 import com.github.stylejy.app.Helpers.System.YelpRequestHelper
-import com.github.stylejy.app.ParserSystem.JSON.YelpJSONParser
+import com.github.stylejy.app.ParserSystem.JSON.{OverpassJSONParser, YelpJSONParser}
 
 import scala.collection.mutable.ListBuffer
 
-class AlgoPreferences(lat: Float, lon: Float,
+class AlgoPreferences(lat: Float, lon: Float, source: Int,
                       numberOfTotalVisits: Int, maxRadius: Int,
                       shopping: Int, parks: Int, pubs: Int) {
-  def run: Unit = {
+  def run: List[Int] = {
     val yelpData = YelpRequestHelper.run(lat, lon, maxRadius, calcPrefs(numberOfTotalVisits, shopping, parks, pubs))
     val results = ListBuffer[(String, (String, Int, (Float, Float)))]()
     /**
@@ -32,8 +32,39 @@ class AlgoPreferences(lat: Float, lon: Float,
         }
       }
     }
-    val sortedResultsByDist = results.sortWith(_._2._2 < _._2._2)
+    val sortedResultsByDist = results.sortWith(_._2._2 > _._2._2)
     println(sortedResultsByDist)
+
+    getPath(sortedResultsByDist)
+  }
+
+  private def getPath(sortedResultsByDist: ListBuffer[(String, (String, Int, (Float, Float)))]): List[Int] = {
+    val destNodes = ListBuffer[Int]()
+    val paths = ListBuffer[Int]()
+
+    for (i <- sortedResultsByDist) {
+      destNodes += findNodes(i._2._3._1, i._2._3._2)
+    }
+    /**
+      * This path is for return trip. So paths should be wrapped around by the user starting point.
+      */
+    destNodes.insert(0, source)
+    destNodes += source
+
+    for (i <- 0 until destNodes.size - 1) {
+      println("getPath : " + destNodes(i) + " " + destNodes(i+1))
+       paths.insertAll(0, getAstarPath(destNodes(i), destNodes(i+1)))
+    }
+    println("AlgoPreferences " + paths)
+    paths.toList
+  }
+
+  private def getAstarPath(source: Int, target: Int): ListBuffer[Int] = {
+    new AlgoClassic(source, target, 1).getPath.to[ListBuffer]
+  }
+
+  private def findNodes(lat: Float, lon: Float): Int = {
+    OverpassJSONParser.run(lat, lon)
   }
 
   private def calcPrefs(numTotal: Int, shopping: Int, parks: Int, pubs: Int): ListBuffer[(String, Int)] = {
@@ -84,7 +115,18 @@ class AlgoPreferences(lat: Float, lon: Float,
           * shopping has the most priority, and then parks and pub in order.
           */
         while (numOfTotalVisits > 0 && pref.size > 0) {
-          val numOfVisits = num/prefSize
+          /**
+            * If num/prefSize is lower than 1, integer division always makes it zero.
+            * Therefore, some cases must be defined to get correct answer.
+            * 0 < num < 1, it will be rounded up to 1.
+            * num > 1, it will be rounded down to the closest lower integer number.
+            */
+          val numOfVisits = {
+            val doubleNum = num.toDouble/prefSize
+            if (doubleNum > 0.0 && doubleNum < 1) math.ceil(doubleNum).toInt
+            else if (doubleNum > 1) math.floor(doubleNum).toInt
+            else 0
+          }
           results += Tuple2(pref.remove(0), numOfVisits)
           numOfTotalVisits -= numOfVisits
         }

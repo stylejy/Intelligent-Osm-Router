@@ -27,9 +27,11 @@ object OsmParser extends VariableCleanHelper {
 
   private val nodes: Map[Long, Node] = Map()
   private var edges: ArrayBuffer[Edge] = ArrayBuffer()
+  private var boundary: Boundary = null
 
   case class Node(lat:Float, lon:Float)
   case class Edge(from:Long, to:Long, dist:Int)
+  case class Boundary(minlat: Float, minlon: Float, maxlat: Float, maxlon: Float)
 
   def run = {
     resetVariable(nodes)
@@ -43,10 +45,24 @@ object OsmParser extends VariableCleanHelper {
 
     val xml = XML.loadFile(osm_file)
 
+    readBoundry(xml)
     readNodes(xml)
     readWays(xml)
     sortEdges
     writeFiles
+  }
+
+  private def readBoundry(xml: Elem): Unit = {
+    println("\n -> reading Boundary..")
+    (xml \ "bounds") foreach { (node) =>
+
+      val minlat = (node\"@minlat").text.toFloat
+      val minlon = (node\"@minlon").text.toFloat
+      val maxlat = (node\"@maxlat").text.toFloat
+      val maxlon = (node\"@maxlon").text.toFloat
+      boundary = Boundary(minlat, minlon, maxlat, maxlon)
+      println("***PARSER*** minlat, minlon: " + minlat + ", " + minlon + " maxlat, maxlon: " + maxlat + ", " + maxlon)
+    }
   }
 
   private def readNodes(xml: Elem) = {
@@ -129,7 +145,13 @@ object OsmParser extends VariableCleanHelper {
     val edgeOut = FileIOHelper.out("edges.bin")
     val distOut = FileIOHelper.out("dists.bin")
     val latlons = FileIOHelper.out("latlns.bin")
+    val boundOut = FileIOHelper.out("bound.bin")
     var id: Long = 0
+
+    boundOut.writeFloat(boundary.minlat)
+    boundOut.writeFloat(boundary.minlon)
+    boundOut.writeFloat(boundary.maxlat)
+    boundOut.writeFloat(boundary.maxlon)
 
     for (e <- edges) {  // build adjacency array
       if (e.from != id) {

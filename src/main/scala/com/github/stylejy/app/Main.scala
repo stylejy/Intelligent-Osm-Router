@@ -18,12 +18,12 @@ object Main {
 
     val lat = 51.512272
     val lon = -0.122135
-    val numberOfVisit = 5
-    val maxRadius = 5000
+    val numberOfVisit = 3
+    val maxRadius = 1000
     val shopping = 2
-    val parks = 2
-    val pubs = 2
+    val parks = 0
+    val pubs = 0
 
-    new AlgoPreferences(lat.toFloat, lon.toFloat, numberOfVisit, maxRadius, shopping, parks, pubs).run
+    new AlgoPreferences(lat.toFloat, lon.toFloat, 36, numberOfVisit, maxRadius, shopping, parks, pubs).run
   }
 }

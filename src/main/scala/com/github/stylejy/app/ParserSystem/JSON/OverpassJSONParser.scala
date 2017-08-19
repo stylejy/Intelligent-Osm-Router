@@ -33,14 +33,14 @@ object OverpassJSONParser extends VariableCleanHelper {
   def parseOverpassJson() = {
     println(lat + " " + lon)
     val overpassJson = parse(scala.io.Source.fromURL("http://overpass-api.de/api/interpreter?data=[out:json];(way(around:50," + lat + "," + lon + ")[\"highway\"~\"^(primary|secondary|tertiary|residential|unclassified|path)$\"];);out;").mkString)
-    println(overpassJson)
+    //println(overpassJson)
     val data = overpassJson.extract[GeoJson]
     for(i <- data.elements) {
       ways += (i.id -> i.nodes)
     }
-    ways.keys.foreach{ i =>
+    /*ways.keys.foreach{ i =>
       print( "Key = " + i )
-      println(" Value = " + ways(i) )}
+      println(" Value = " + ways(i) )}*/
   }
 
   def calcDistance: Int = {
@@ -54,8 +54,8 @@ object OverpassJSONParser extends VariableCleanHelper {
       val distLng = MapData.latlon(i).lon - lon
       /** We don't need an actual distance, so we don't calculate a square root of the sum. */
       val dist = (distLat*distLat) + (distLng*distLng)
-      println(nodeIds(i) + " " + MapData.latlon(i))
-      println(dist)
+      //println(nodeIds(i) + " " + MapData.latlon(i))
+      //println(dist)
       if (shortestDist < 0) {
         shortestController(dist, i)
       } else {

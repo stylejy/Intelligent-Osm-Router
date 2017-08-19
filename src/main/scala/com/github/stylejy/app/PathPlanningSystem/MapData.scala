@@ -8,12 +8,19 @@ import scala.collection.mutable.ArrayBuffer
 object MapData extends VariableCleanHelper {
   case class LatLon(lat:Float, lon:Float)
   case class LatLonModel(lat: Double, lon: Double)
+  case class Boundary(minlat: Float, minlon: Float, maxlat: Float, maxlon: Float)
 
   val nodeArray = ArrayBuffer[Int]()
   val originalNodeIds = ArrayBuffer[Long]()
   val edgeArray = ArrayBuffer[Int]()
   val distArray = ArrayBuffer[Int]()
   val latlon = ArrayBuffer[LatLon]()
+  val boundary: Boundary = {
+    val bIn = FileIOHelper.in("bound.bin")
+    Boundary(bIn.readFloat,bIn.readFloat,bIn.readFloat,bIn.readFloat)
+  }
+
+  println(boundary)
 
   def load: Unit = {
     resetVars
