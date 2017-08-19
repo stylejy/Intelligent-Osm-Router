@@ -2,7 +2,6 @@ package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
 import com.github.stylejy.app.Helpers.System.YelpRequestHelper
 import com.github.stylejy.app.ParserSystem.JSON.{OverpassJSONParser, YelpJSONParser}
-import com.github.stylejy.app.ParserSystem.Osm.OsmParser
 import com.github.stylejy.app.PathPlanningSystem.MapData
 
 import scala.collection.mutable.ListBuffer
@@ -124,6 +123,7 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
     val numOfLikeVisits = (likePref.size.toFloat / numOfPositiveAnswers) * numOfTotalVisits * 1.25
     val numOfNeutralVisits = (neutralPref.size.toFloat / numOfPositiveAnswers) * (numOfTotalVisits)
 
+
     val numOfVisitsForEach = {
       val results = ListBuffer[(String, Int)]()
 
@@ -140,14 +140,15 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
             * If num/prefSize is lower than 1, integer division always makes it zero.
             * Therefore, some cases must be defined to get correct answer.
             * 0 < num < 1, it will be rounded up to 1.
-            * num > 1, it will be rounded down to the closest lower integer number.
+            * num >= 1, it will be rounded down to the closest lower integer number.
             */
           val numOfVisits = {
             val doubleNum = num.toDouble/prefSize
             if (doubleNum > 0.0 && doubleNum < 1) math.ceil(doubleNum).toInt
-            else if (doubleNum > 1) math.floor(doubleNum).toInt
+            else if (doubleNum >= 1) math.floor(doubleNum).toInt
             else 0
           }
+          println("numOfVisits " + numOfVisits)
           results += Tuple2(pref.remove(0), numOfVisits)
           numOfTotalVisits -= numOfVisits
         }
@@ -155,7 +156,7 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
       results
     }
 
-    println(numOfVisitsForEach)
+    println("calcpref: " + numOfVisitsForEach)
     numOfVisitsForEach
   }
 }

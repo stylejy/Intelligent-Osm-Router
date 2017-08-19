@@ -15,17 +15,23 @@ object MapData extends VariableCleanHelper {
   val edgeArray = ArrayBuffer[Int]()
   val distArray = ArrayBuffer[Int]()
   val latlon = ArrayBuffer[LatLon]()
-  val boundary: Boundary = {
-    val bIn = FileIOHelper.in("bound.bin")
-    Boundary(bIn.readFloat,bIn.readFloat,bIn.readFloat,bIn.readFloat)
-  }
+  var boundary: Boundary = null
 
-  println(boundary)
+  def boundaryUpdate: Unit = {
+    val bIn = FileIOHelper.in("bound.bin")
+    val minLat = bIn.readFloat
+    val minLon = bIn.readFloat
+    val maxLat = bIn.readFloat
+    val maxLon = bIn.readFloat
+    println("boundary update : " + minLat + " " + minLon + " " + maxLat + " " + maxLon)
+    boundary = Boundary(minLat,minLon,maxLat,maxLon)
+  }
 
   def load: Unit = {
     resetVars
     print("loading graph..")
 
+    boundaryUpdate
     constructGraphStructure
     /**Every time new nodes are loaded(contructing the graph structure),
       *nodeIds in JSONParser also should be updated.

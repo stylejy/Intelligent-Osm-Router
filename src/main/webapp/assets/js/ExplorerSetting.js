@@ -13,4 +13,5 @@ function sendDepthToServer(depth) {
     var request = new XMLHttpRequest();
     request.open("POST", "/explorersetting?depth=" + depth, true);
     request.send();
+    window.location.href = "/explorer";
 }
