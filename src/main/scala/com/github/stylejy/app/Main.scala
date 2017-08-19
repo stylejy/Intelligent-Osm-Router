@@ -19,7 +19,7 @@ object Main {
     val lat = 51.512272
     val lon = -0.122135
     val numberOfVisit = 3
-    val maxRadius = 1000
+    val maxRadius = 100
     val shopping = 2
     val parks = 0
     val pubs = 0

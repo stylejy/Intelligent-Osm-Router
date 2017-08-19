@@ -22,6 +22,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   var isReady = false
   var sourcePosition: Int = -1
   var targetPosition: Int = -1
+  var algorithmSwitch = 0
+
+  var depth = 0
 
   /**
     * For AlgoPreferences
@@ -30,7 +33,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   var sourceLon: Float = 0
 
   def displayPage(content: Seq[Node]) = TemplateHelper.page("Intelligent-OSM-Router", content, url(_))
-  def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node]) = TemplateHelper.page("Intelligent-OSM-Router", content, url(_), head, foot)
+  def displayPageWithHead(content: Seq[Node], head: Seq[Node], foot: Seq[Node] = Nil) = TemplateHelper.page("Intelligent-OSM-Router", content, url(_), head, foot)
 
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
@@ -40,6 +43,43 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/") {
+    if (!isReady) {
+      MapData.load
+      isReady = true
+    }
+    resetPositions
+    try {
+      XML.loadFile("osmdata/data.osm")
+      displayPageWithHead(
+        <!-- content -->
+          <div id="algoSwitch">
+            <a href="/dijkstra" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">Dijkstra</a>
+            <a href="/astar" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">A*</a>
+            <a href="/explorersetting" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">Explorer</a>
+            <a href="/pref" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">Preference Based</a>
+          </div>
+        ,
+        <!-- head -->
+            <link rel="stylesheet" href="leaflet/leaflet.css"/>
+          <script src="leaflet/leaflet.js"></script>
+            <link href="PageStyle.css" rel="stylesheet"/>
+          <script src="leaflet.geometryutil.js"></script>
+      )
+    } catch {
+      case e: FileNotFoundException =>
+        displayPage(
+          <h3>
+            ----> Upload an OSM file to store in the server.
+          </h3>
+            <form action={url("/update")} method="post" enctype="multipart/form-data">
+              <p>File to upload: <input type="file" name="map" /></p>
+              <p><input type="submit" value="Upload" /></p>
+            </form>
+        )
+    }
+  }
+
+  get("/dijkstra") {
     if (!isReady) {
       MapData.load
       isReady = true
@@ -79,7 +119,148 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
             </form>
         )
     }
+  }
 
+  get("/astar") {
+    algorithmSwitch = 1
+    if (!isReady) {
+      MapData.load
+      isReady = true
+    }
+    resetPositions
+    try {
+      XML.loadFile("osmdata/data.osm")
+      displayPageWithHead(
+        <!-- content -->
+          <script src="/assets/js/MapSizeController.js"></script>
+          <div id="leaflet"></div>
+          <script type="text/javascript">mapHeight()</script>
+          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script src="/assets/js/LeafletController.js"></script>
+        ,
+        <!-- head -->
+            <link rel="stylesheet" href="leaflet/leaflet.css"/>
+          <script src="leaflet/leaflet.js"></script>
+            <link href="PageStyle.css" rel="stylesheet"/>
+          <script src="leaflet.geometryutil.js"></script>
+        ,
+        <!-- foot -->
+          <p id="source">Source</p>
+          <p id="target">Target</p>
+          <div id="getpath">
+          </div>
+      )
+    } catch {
+      case e: FileNotFoundException =>
+        displayPage(
+          <h3>
+            ----> Upload an OSM file to store in the server.
+          </h3>
+            <form action={url("/update")} method="post" enctype="multipart/form-data">
+              <p>File to upload: <input type="file" name="map" /></p>
+              <p><input type="submit" value="Upload" /></p>
+            </form>
+        )
+    }
+  }
+
+  get("/explorersetting") {
+    displayPage(
+      <form>
+        <div class="form-group">
+          <label for="depth">Depth for Explorer Algorithm</label>
+          <input type="number" class="form-control" id="depth" placeholder="Depth number (Must be positive)" />
+        </div>
+
+        <a href="/explorer" class="btn btn-primary" role="button" aria-disabled="true" id="explorer-submit">Submit</a>
+      </form>
+        <script src="/assets/js/ExplorerSetting.js"></script>
+    )
+  }
+
+  get("/explorer") {
+    algorithmSwitch = 2
+    if (!isReady) {
+      MapData.load
+      isReady = true
+    }
+    resetPositions
+    try {
+      XML.loadFile("osmdata/data.osm")
+      displayPageWithHead(
+        <!-- content -->
+          <script src="/assets/js/MapSizeController.js"></script>
+          <div id="leaflet"></div>
+          <script type="text/javascript">mapHeight()</script>
+          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script src="/assets/js/LeafletController.js"></script>
+        ,
+        <!-- head -->
+            <link rel="stylesheet" href="leaflet/leaflet.css"/>
+          <script src="leaflet/leaflet.js"></script>
+            <link href="PageStyle.css" rel="stylesheet"/>
+          <script src="leaflet.geometryutil.js"></script>
+        ,
+        <!-- foot -->
+          <p id="source">Source</p>
+          <p id="target">Target</p>
+          <div id="getpath">
+          </div>
+      )
+    } catch {
+      case e: FileNotFoundException =>
+        displayPage(
+          <h3>
+            ----> Upload an OSM file to store in the server.
+          </h3>
+            <form action={url("/update")} method="post" enctype="multipart/form-data">
+              <p>File to upload: <input type="file" name="map" /></p>
+              <p><input type="submit" value="Upload" /></p>
+            </form>
+        )
+    }
+  }
+
+  get("/pref") {
+    algorithmSwitch = 3
+    if (!isReady) {
+      MapData.load
+      isReady = true
+    }
+    resetPositions
+    try {
+      XML.loadFile("osmdata/data.osm")
+      displayPageWithHead(
+        <!-- content -->
+          <script src="/assets/js/MapSizeController.js"></script>
+          <div id="leaflet"></div>
+          <script type="text/javascript">mapHeight()</script>
+          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script src="/assets/js/LeafletController.js"></script>
+        ,
+        <!-- head -->
+            <link rel="stylesheet" href="leaflet/leaflet.css"/>
+          <script src="leaflet/leaflet.js"></script>
+            <link href="PageStyle.css" rel="stylesheet"/>
+          <script src="leaflet.geometryutil.js"></script>
+        ,
+        <!-- foot -->
+          <p id="source">Source</p>
+          <div id="getpath">
+          </div>
+      )
+    } catch {
+      case e: FileNotFoundException =>
+        displayPage(
+          <h3>
+            ----> Upload an OSM file to store in the server.
+          </h3>
+            <form action={url("/update")} method="post" enctype="multipart/form-data">
+              <p>File to upload: <input type="file" name="map" /></p>
+              <p><input type="submit" value="Upload" /></p>
+            </form>
+        )
+    }
   }
 
   post("/update") {
@@ -108,7 +289,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   get("/path") {
     val numberOfVisit = 3
-    val maxRadius = 1000
+    val maxRadius = 100
     val shopping = 2
     val parks = 0
     val pubs = 0
@@ -118,7 +299,16 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
       val start = System.currentTimeMillis()
       //val path = new AlgoClassic(sourcePosition, targetPosition, 0).getPath
       //val path = new AlgoExplorer(sourcePosition, targetPosition, 10).run
-      val path = new AlgoPreferences(51.512272.toFloat, -0.122135.toFloat, 36, numberOfVisit, maxRadius, shopping, parks, pubs).run
+      val path = {
+        algorithmSwitch match {
+          case 0 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
+          case 1 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
+          case 2 => new AlgoExplorer(sourcePosition, targetPosition, depth).run
+          case 3 => new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs).run
+        }
+      }
+
+
       println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
 
       contentType = formats("json")
@@ -154,4 +344,10 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
       println("source: " + sourcePosition + "  target: " + targetPosition)
     }
   }
+
+  post("/explorersetting") {
+    depth = params("depth").toInt
+    println(depth)
+  }
+
 }

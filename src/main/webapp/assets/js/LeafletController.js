@@ -5,6 +5,7 @@ var isSourceFixed = false;
 var isTargetFixed = false;
 var isMarkerCreated = [false, false];
 
+
 function onMapClick(e) {
     coordinates = e.latlng;
     markerController();

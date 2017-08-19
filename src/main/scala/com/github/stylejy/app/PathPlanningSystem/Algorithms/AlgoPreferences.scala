@@ -2,6 +2,8 @@ package com.github.stylejy.app.PathPlanningSystem.Algorithms
 
 import com.github.stylejy.app.Helpers.System.YelpRequestHelper
 import com.github.stylejy.app.ParserSystem.JSON.{OverpassJSONParser, YelpJSONParser}
+import com.github.stylejy.app.ParserSystem.Osm.OsmParser
+import com.github.stylejy.app.PathPlanningSystem.MapData
 
 import scala.collection.mutable.ListBuffer
 
@@ -43,7 +45,15 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
     val paths = ListBuffer[Int]()
 
     for (i <- sortedResultsByDist) {
-      destNodes += findNodes(i._2._3._1, i._2._3._2)
+      val lat = i._2._3._1
+      val lon = i._2._3._2
+
+      /**
+        * If the lat and lon exceed the map boundary,
+        * They are not added to the destNodes.
+        */
+      if (checkBoundaryValidity(lat, lon))
+        destNodes += findNodes(lat, lon)
     }
     /**
       * This path is for return trip. So paths should be wrapped around by the user starting point.
@@ -57,6 +67,17 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
     }
     println("AlgoPreferences " + paths)
     paths.toList
+  }
+
+  /**
+    * It checks if the coordinates are withing the map boundary.
+    * @return if there are in, it returns true, otherwise, false.
+    */
+  private def checkBoundaryValidity(lat: Float, lon: Float): Boolean = {
+    val bound = MapData.getBound
+
+    if (lat > bound.minlat && lat < bound.maxlat && lon > bound.minlon && lon < bound.maxlon) true
+    else false
   }
 
   private def getAstarPath(source: Int, target: Int): ListBuffer[Int] = {

@@ -34,6 +34,8 @@ object MapData extends VariableCleanHelper {
     constructCoordinatesStructure
   }
 
+  def getBound: Boundary = boundary
+
   def getCoordinates(nodeId: Int): (Double, Double) = (latlon(nodeId).lat, latlon(nodeId).lon)
 
   private def constructCoordinatesStructure: Unit = {
