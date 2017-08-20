@@ -13,9 +13,11 @@ function onMapClick(e) {
 mymap.on('click', onMapClick);
 
 function choosePoints() {
-    document.getElementById("source").innerHTML = 'Chosen Source Point -> ' + shapeCoordinates()
-        + selectPointButton("sourceBtn");
-    document.getElementById("sourceBtn").addEventListener("click", clickSourceButton);
+    if (isSourceFixed == false) {
+        document.getElementById("source").innerHTML = 'Chosen Source Point -> ' + shapeCoordinates()
+            + selectPointButton("sourceBtn");
+            document.getElementById("sourceBtn").addEventListener("click", clickSourceButton);
+    }
 }
 
 function selectPointButton(element) {
@@ -40,7 +42,7 @@ function markerController() {
         marker = L.marker([coordinates.lat, coordinates.lng]);
         marker.addTo(mymap);
         isMarkerCreated = true;
-    } else {
+    } else if (isSourceFixed == false) {
         marker.setLatLng([coordinates.lat, coordinates.lng]);
     }
 }
@@ -62,14 +64,39 @@ function getPath() {
                 var result = JSON.parse(jsontext);
 
                 var latlngs = [result];
-                //alert("latlng" + latlngs);
                 var polyline = L.polyline(latlngs, {color: 'green', opacity: 0.5}).addTo(mymap);
                 // zoom the map to the polyline
                 mymap.fitBounds(polyline.getBounds());
+                getPlaces();
             }
         }
 
     };
+    request.send();
+}
 
+function getPlaces() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "/sortedplaces", true);
+    request.onreadystatechange = function() {
+        if (request.readyState == 4) {
+            if (request.status == 200 || request.status == 0) {
+                var jsontext = request.responseText;
+                var results = JSON.parse(jsontext);
+
+                for (var i in results.place) {
+                    var lat = results.place[i].lat;
+                    var lon = results.place[i].lon;
+                    var pref_type = results.place[i].pref_type;
+                    var name = results.place[i].name;
+                    var seq = Number(i)+1;
+                    marker = L.marker([lat, lon]);
+                    marker.addTo(mymap);
+                    marker.bindPopup("<h3> Place " + seq + "</h3><br><h5> Pref Type : " + pref_type + "<br>Name : " + name + "</h5>").openPopup();
+                }
+            }
+        }
+
+    };
     request.send();
 }

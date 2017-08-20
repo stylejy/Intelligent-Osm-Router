@@ -9,6 +9,12 @@ import scala.collection.mutable.ListBuffer
 class AlgoPreferences(lat: Float, lon: Float, source: Int,
                       numberOfTotalVisits: Int, maxRadius: Int,
                       shopping: Int, parks: Int, pubs: Int) {
+
+  /**
+    * [(String, (String, Int, (Float, Float)))]
+    * means [(Type of business, (business name, distance, (latitude, longitude)))]
+    */
+  val sortedPlacesByDist = ListBuffer[(String, (String, Int, (Float, Float)))]()
   def run: List[Int] = {
     val yelpData = YelpRequestHelper.run(lat, lon, maxRadius, calcPrefs(numberOfTotalVisits, shopping, parks, pubs))
     val results = ListBuffer[(String, (String, Int, (Float, Float)))]()
@@ -33,10 +39,10 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
         }
       }
     }
-    val sortedResultsByDist = results.sortWith(_._2._2 > _._2._2)
-    println(sortedResultsByDist)
+    sortedPlacesByDist ++= results.sortWith(_._2._2 > _._2._2)
+    println(sortedPlacesByDist)
 
-    getPath(sortedResultsByDist)
+    getPath(sortedPlacesByDist)
   }
 
   private def getPath(sortedResultsByDist: ListBuffer[(String, (String, Int, (Float, Float)))]): List[Int] = {

@@ -1,6 +1,6 @@
 package com.github.stylejy.app
 
-import java.io.{File, FileNotFoundException, Writer}
+import java.io.{File, FileNotFoundException}
 
 import com.github.stylejy.app.Helpers.WebService.TemplateHelper
 import com.github.stylejy.app.PathPlanningSystem.{MapData, PathWriter}
@@ -14,8 +14,11 @@ import scala.xml.{Node, XML}
 import servlet.FileUploadSupport
 
 import scala.collection.mutable.ListBuffer
+
 // JSON-related libraries
 import org.json4s.{DefaultFormats, Formats}
+import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods._
 // JSON handling support from Scalatra
 import org.scalatra.json._
 
@@ -51,6 +54,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     */
   var sourceLat: Float = 0
   var sourceLon: Float = 0
+  var sortedPlaces = ListBuffer[(String, (String, Int, (Float, Float)))]()
 
   def displayPage(title: String ,content: Seq[Node]) = TemplateHelper.page(title, content, url(_))
   def displayPageWithHead(title: String, content: Seq[Node], head: Seq[Node], foot: Seq[Node] = Nil) = TemplateHelper.page(title, content, url(_), head, foot)
@@ -88,6 +92,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
             <a href="/astar" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">A*</a>
             <a href="/explorersetting" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">Explorer</a>
             <a href="/prefsetting" class="btn btn-primary btn-lg active" role="button" aria-disabled="true">Preference Based</a>
+            <a href="/update" class="btn btn-secondary btn-lg active" role="button" aria-disabled="true">Update</a>
           </div>
         ,
         <!-- head -->
@@ -108,6 +113,28 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
               <p><input type="submit" value="Upload" /></p>
             </form>
         )
+    }
+  }
+
+  get("/path") {
+    println("path source: " + sourcePosition + "  target: " + targetPosition)
+    if (algorithmSwitch.equals(3) || (sourcePosition > 0 && targetPosition > 0)) {
+      val start = System.currentTimeMillis()
+      val path = {
+        algorithmSwitch match {
+          case 0 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
+          case 1 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
+          case 2 => new AlgoExplorer(sourcePosition, targetPosition, depth).run
+          case 3 =>
+            val pref = new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs)
+            val results = pref.run
+            sortedPlaces = pref.sortedPlacesByDist
+            results
+        }
+      }
+      println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
+      contentType = formats("json")
+      PathWriter.write(path)
     }
   }
 
@@ -172,7 +199,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <script src="/assets/js/MapSizeController.js"></script>
           <div id="leaflet"></div>
           <script type="text/javascript">mapHeight()</script>
-          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script id="leafletInit" type="text/javascript"
+                  data-minLat={minLat} data-minLon={minLon}
+                  data-maxLat={maxLat} data-maxLon={maxLon} src="/assets/js/LeafletInitializer.js"></script>
           <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
@@ -232,7 +261,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <script src="/assets/js/MapSizeController.js"></script>
           <div id="leaflet"></div>
           <script type="text/javascript">mapHeight()</script>
-          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script id="leafletInit" type="text/javascript"
+                  data-minLat={minLat} data-minLon={minLon}
+                  data-maxLat={maxLat} data-maxLon={maxLon} src="/assets/js/LeafletInitializer.js"></script>
           <script src="/assets/js/LeafletController.js"></script>
         ,
         <!-- head -->
@@ -319,7 +350,9 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
           <script src="/assets/js/MapSizeController.js"></script>
           <div id="leaflet"></div>
           <script type="text/javascript">mapHeight()</script>
-          <script src="/assets/js/LeafletInitializer.js"></script>
+          <script id="leafletInit" type="text/javascript"
+                  data-minLat={minLat} data-minLon={minLon}
+                  data-maxLat={maxLat} data-maxLon={maxLon} src="/assets/js/LeafletInitializer.js"></script>
           <script src="/assets/js/LeafletControllerForPrefs.js"></script>
         ,
         <!-- head -->
@@ -373,31 +406,6 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
     }
   }
 
-  get("/path") {
-    println("path source: " + sourcePosition + "  target: " + targetPosition)
-    if (algorithmSwitch.equals(3) || (sourcePosition > 0 && targetPosition > 0)) {
-      val start = System.currentTimeMillis()
-      //val path = new AlgoClassic(sourcePosition, targetPosition, 0).getPath
-      //val path = new AlgoExplorer(sourcePosition, targetPosition, 10).run
-      val path = {
-        algorithmSwitch match {
-          case 0 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
-          case 1 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
-          case 2 => new AlgoExplorer(sourcePosition, targetPosition, depth).run
-          case 3 =>
-            new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs).run
-
-        }
-      }
-
-
-      println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
-
-      contentType = formats("json")
-      PathWriter.write(path)
-    }
-  }
-
   get("/update") {
     displayPage(
       "Map Update",
@@ -426,6 +434,29 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
       targetPosition = OverpassJSONParser.run(lat, lon)
       println("source: " + sourcePosition + "  target: " + targetPosition)
     }
+  }
+
+  get("/sortedplaces") {
+    case class PlaceDetails(prefType: String, name: String, lat: Float, lon: Float)
+
+    val results = {
+      val placeDetails = ListBuffer[PlaceDetails]()
+      for (i <- sortedPlaces) {
+        placeDetails += PlaceDetails(i._1, i._2._1, i._2._3._1, i._2._3._2)
+      }
+      placeDetails.toList
+    }
+
+    val Json =
+      "place" ->
+        results.map { d =>
+          ("pref_type" -> d.prefType) ~
+            ("name" -> d.name) ~
+            ("lat" -> d.lat) ~
+            ("lon" -> d.lon)}
+
+    contentType = formats("json")
+    Json
   }
 
   post("/explorersetting") {

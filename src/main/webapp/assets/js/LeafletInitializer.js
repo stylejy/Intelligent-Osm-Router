@@ -7,6 +7,28 @@ var minLon = Number(document.getElementById("leafletInit").getAttribute("data-mi
 var maxLat = Number(document.getElementById("leafletInit").getAttribute("data-maxLat"));
 var maxLon = Number(document.getElementById("leafletInit").getAttribute("data-maxLon"));
 
+L.Map = L.Map.extend({
+    openPopup: function (popup, latlng, options) {
+        if (!(popup instanceof L.Popup)) {
+            var content = popup;
+
+            popup = new L.Popup(options).setContent(content);
+        }
+
+        if (latlng) {
+            popup.setLatLng(latlng);
+        }
+
+        if (this.hasLayer(popup)) {
+            return this;
+        }
+
+        //this.closePopup();
+        this._popup = popup;
+        return this.addLayer(popup);
+    }
+});
+
 var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     mapBox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         maxZoom: 20,
