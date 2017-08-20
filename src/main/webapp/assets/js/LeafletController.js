@@ -93,7 +93,7 @@ function getPath() {
 
                 var latlngs = [result];
                 //alert("latlng" + latlngs);
-                var polyline = L.polyline(latlngs, {color: 'green', opacity: 0.5}).addTo(mymap);
+                var polyline = L.polyline(latlngs, {color: getRandomColour(), opacity: 0.8}).addTo(mymap);
                 // zoom the map to the polyline
                 mymap.fitBounds(polyline.getBounds());
             }
@@ -102,4 +102,13 @@ function getPath() {
     };
 
     request.send();
+}
+
+function getRandomColour() {
+    var color = '#';
+    var base = '0123456789ABCDEF'.split('');
+    for (var i = 0; i < 6; i++ ) {
+        color += base[Math.round(Math.random() * 15)];
+    }
+    return color;
 }

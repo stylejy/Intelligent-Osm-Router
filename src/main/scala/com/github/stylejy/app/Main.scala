@@ -1,6 +1,5 @@
 package com.github.stylejy.app
 
-import com.github.stylejy.app.Helpers.System._
 import com.github.stylejy.app.PathPlanningSystem.Algorithms.{AlgoClassic, AlgoExplorer, AlgoPreferences}
 import com.github.stylejy.app.PathPlanningSystem.MapData
 
@@ -14,9 +13,9 @@ object Main {
 
   def run = {
     MapData.load
-    //new AlgoClassic(54, 14, 1).run
+    println(new AlgoClassic(215, 280, 1).getPath)
 
-    val lat = 51.512272
+    /*val lat = 51.512272
     val lon = -0.122135
     val numberOfVisit = 3
     val maxRadius = 100
@@ -24,6 +23,6 @@ object Main {
     val parks = 0
     val pubs = 0
 
-    new AlgoPreferences(lat.toFloat, lon.toFloat, 36, numberOfVisit, maxRadius, shopping, parks, pubs).run
+    new AlgoPreferences(lat.toFloat, lon.toFloat, 36, numberOfVisit, maxRadius, shopping, parks, pubs).run*/
   }
 }

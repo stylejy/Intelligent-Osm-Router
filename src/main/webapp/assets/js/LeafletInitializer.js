@@ -6,7 +6,13 @@ var minLat = Number(document.getElementById("leafletInit").getAttribute("data-mi
 var minLon = Number(document.getElementById("leafletInit").getAttribute("data-minLon"));
 var maxLat = Number(document.getElementById("leafletInit").getAttribute("data-maxLat"));
 var maxLon = Number(document.getElementById("leafletInit").getAttribute("data-maxLon"));
-
+/**
+ * This is a snippet of the Leaflet discussed forum to keep popups open while others open.
+ * It can make it to show all details of places every initial time to get the path with the
+ * preference based algorithm. This code is shared by many others who have the problem to
+ * deal with opening multiple popups.
+ * http://plnkr.co/edit/CAjJvltFrRgAWvHew8fx?p=info
+ */
 L.Map = L.Map.extend({
     openPopup: function (popup, latlng, options) {
         if (!(popup instanceof L.Popup)) {

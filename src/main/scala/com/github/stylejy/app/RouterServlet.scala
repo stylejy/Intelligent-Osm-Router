@@ -118,23 +118,37 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
   get("/path") {
     println("path source: " + sourcePosition + "  target: " + targetPosition)
-    if (algorithmSwitch.equals(3) || (sourcePosition > 0 && targetPosition > 0)) {
+    if (sourcePosition > 0 && targetPosition > 0) {
       val start = System.currentTimeMillis()
       val path = {
         algorithmSwitch match {
           case 0 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
           case 1 => new AlgoClassic(sourcePosition, targetPosition, algorithmSwitch).getPath
           case 2 => new AlgoExplorer(sourcePosition, targetPosition, depth).run
-          case 3 =>
-            val pref = new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs)
-            val results = pref.run
-            sortedPlaces = pref.sortedPlacesByDist
-            results
         }
       }
+
       println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
       contentType = formats("json")
       PathWriter.write(path)
+    }
+  }
+
+  get("/pathforprefs") {
+    if (sourcePosition > 0) {
+      val start = System.currentTimeMillis()
+
+      val path = {
+        val pref = new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs)
+        val results = pref.run
+        sortedPlaces = pref.sortedPlacesByDist
+        results
+      }
+
+      println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
+      println(PathWriter.writeForPrefs(path))
+      contentType = formats("json")
+      PathWriter.writeForPrefs(path)
     }
   }
 

@@ -56,23 +56,36 @@ function sendLatlngToServer(lat, lng) {
 function getPath() {
     //To get path raw data
     var request = new XMLHttpRequest();
-    request.open("GET", "/path", true);
+    request.open("GET", "/pathforprefs", true);
     request.onreadystatechange = function() {
         if (request.readyState == 4) {
             if (request.status == 200 || request.status == 0) {
                 var jsontext = request.responseText;
+                //alert(jsontext);
                 var result = JSON.parse(jsontext);
 
-                var latlngs = [result];
-                var polyline = L.polyline(latlngs, {color: 'green', opacity: 0.5}).addTo(mymap);
+                for (var i in result) {
+                    var polyline = L.polyline(result[i], {color: getRandomColour(), opacity: 0.5}).addTo(mymap);
+                    alert(result[i]);
+                }
                 // zoom the map to the polyline
                 mymap.fitBounds(polyline.getBounds());
+
                 getPlaces();
             }
         }
 
     };
     request.send();
+}
+
+function getRandomColour() {
+    var color = '#';
+    var base = '0123456789ABCDEF'.split('');
+    for (var i = 0; i < 6; i++ ) {
+        color += base[Math.round(Math.random() * 15)];
+    }
+    return color;
 }
 
 function getPlaces() {

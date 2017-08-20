@@ -4,7 +4,7 @@ import com.github.stylejy.app.Helpers.System.YelpRequestHelper
 import com.github.stylejy.app.ParserSystem.JSON.{OverpassJSONParser, YelpJSONParser}
 import com.github.stylejy.app.PathPlanningSystem.MapData
 
-import scala.collection.mutable.ListBuffer
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 class AlgoPreferences(lat: Float, lon: Float, source: Int,
                       numberOfTotalVisits: Int, maxRadius: Int,
@@ -15,7 +15,7 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
     * means [(Type of business, (business name, distance, (latitude, longitude)))]
     */
   val sortedPlacesByDist = ListBuffer[(String, (String, Int, (Float, Float)))]()
-  def run: List[Int] = {
+  def run: List[ListBuffer[Int]] = {
     val yelpData = YelpRequestHelper.run(lat, lon, maxRadius, calcPrefs(numberOfTotalVisits, shopping, parks, pubs))
     val results = ListBuffer[(String, (String, Int, (Float, Float)))]()
     /**
@@ -45,11 +45,13 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
     getPath(sortedPlacesByDist)
   }
 
-  private def getPath(sortedResultsByDist: ListBuffer[(String, (String, Int, (Float, Float)))]): List[Int] = {
-    val destNodes = ListBuffer[Int]()
-    val paths = ListBuffer[Int]()
+  private def getPath(sortedPlaces: ListBuffer[(String, (String, Int, (Float, Float)))]): List[ListBuffer[Int]] = {
 
-    for (i <- sortedResultsByDist) {
+    val destNodes = ListBuffer[Int]()
+    val indexedPaths = ListBuffer[ListBuffer[Int]]()
+
+
+    for (i <- sortedPlaces) {
       val lat = i._2._3._1
       val lon = i._2._3._2
 
@@ -61,17 +63,38 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
         destNodes += findNodes(lat, lon)
     }
     /**
-      * This path is for return trip. So paths should be wrapped around by the user starting point.
+      * This path is for return trip. So indexedPaths should be wrapped around by the user starting point.
       */
     destNodes.insert(0, source)
     destNodes += source
 
-    for (i <- 0 until destNodes.size - 1) {
-      println("getPath : " + destNodes(i) + " " + destNodes(i+1))
-       paths.insertAll(0, getAstarPath(destNodes(i), destNodes(i+1)))
+    /**
+      * This makes it avoid drawing wrong paths that the empty path results from a classic algorithm cause.
+      */
+    var iterator = 0
+    while (iterator < destNodes.size - 1) {
+      println("getPath : " + destNodes(iterator) + " " + destNodes(iterator+1))
+      val astartResult = getAstarPath(destNodes(iterator), destNodes(iterator+1))
+
+      /**
+        * If the classic result is empty,
+        * First, remove the correspond place from the sorted places list.
+        * Second, remove the sorrespond node from the desk node list.
+        * Last, iterator "will not" increase in this case because the new value has come at the next location automatically
+        * by the previous step.
+        */
+      if (astartResult.isEmpty) {
+        sortedPlacesByDist.remove(iterator)
+        destNodes.remove(iterator+1)
+      } else {
+        val paths = ListBuffer[Int]()
+        paths ++= astartResult
+        indexedPaths.insert(0, paths)
+        iterator += 1
+      }
     }
-    println("AlgoPreferences " + paths)
-    paths.toList
+    println("AlgoPreferences " + indexedPaths)
+    indexedPaths.toList
   }
 
   /**

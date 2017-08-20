@@ -19,18 +19,36 @@ package com.github.stylejy.app.PathPlanningSystem
 
 import com.github.stylejy.app.Helpers.System.VariableCleanHelper
 import com.github.stylejy.app.PathPlanningSystem.MapData.LatLonModel
-import scala.collection.mutable.ListBuffer
+
+import scala.collection.mutable.{ArrayBuffer, ListBuffer}
 
 /**
   * Created by stylejy on 20/06/2017.
   */
 object PathWriter extends VariableCleanHelper{
   def write(path: List[Int]): ListBuffer[MapData.LatLonModel] = {
-    var pathOut = new ListBuffer[MapData.LatLonModel]
-    for (node <- path) yield {
+    val pathOut = ListBuffer[MapData.LatLonModel]()
+    for (node <- path) {
       pathOut += LatLonModel(MapData.latlon(node).lat, MapData.latlon(node).lon)
     }
     println("****************************************" + pathOut)
+    pathOut
+  }
+
+  def writeForPrefs(path: List[ListBuffer[Int]]): ArrayBuffer[ListBuffer[MapData.LatLonModel]] = {
+    case class PathLatLon(lat: Float, lon: Float)
+    case class indexPath(index: Int, latlon: PathLatLon)
+
+    val pathOut = ArrayBuffer[ListBuffer[MapData.LatLonModel]]()
+
+    for (sub <- path) {
+      val subPath = ListBuffer[MapData.LatLonModel]()
+      for (i <- sub) {
+        subPath += LatLonModel(MapData.latlon(i).lat, MapData.latlon(i).lon)
+      }
+      pathOut += subPath
+    }
+    //println("****************************************" + pathOut)
     pathOut
   }
 }
