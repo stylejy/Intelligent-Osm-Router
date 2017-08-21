@@ -12,7 +12,7 @@ organization := "com.github.stylejy"
 
 name := "Intelligent OSM Router"
 
-version := "0.0.1"
+version := "1.0.0"
 
 scalaVersion := "2.12.2"
 
