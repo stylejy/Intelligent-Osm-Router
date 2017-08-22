@@ -11,6 +11,7 @@ object DistanceCalculator {
     val lat2 = toRadians(to.lat)
     val lon2 = toRadians(to.lon)
 
+    //Using Spherical Law of Cosines to get the distance between the two pairs of coordinates.
     ((6378.388f * acos(
       sin(lat1) * sin(lat2)
         + cos(lat1) * cos(lat2)

@@ -153,6 +153,7 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
   }
 
   get("/dijkstra") {
+    algorithmSwitch = 0
     if (!isReady) {
       loadMapData
       isReady = true

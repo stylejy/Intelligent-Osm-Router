@@ -29,8 +29,6 @@ import scala.collection.mutable.{ListBuffer, Map}
   */
 class AlgoClassic(source: Int, target: Int, selector: Int) {
 
-
-
   private def selectAlgo(currentNode: GraphNode, neighbour: GraphNode, weight:Int): Int = {
     val cost = {
       /**

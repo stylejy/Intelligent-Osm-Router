@@ -27,40 +27,28 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
   private def modifyPath: Unit = {
     findNeighbour
     if (isExploredNodeAdded) {
-      linkExploredNodeToOriginal
-      removeExceedingNodes
+      linkExploredNodeToTarget
     }
     println(" [ modifyPath ][for loop] exploredCompletePath : " + exploredCompletePath)
     println(optimalPath)
   }
 
   /**
-    * One of the rules is that there should not be nodes placed to exceed the target node or the source node boundary.
-    * It drops all nodes placed to exceed the target node or the source node.
-    */
-  private def removeExceedingNodes: Unit = {
-    exploredCompletePath --= exploredCompletePath.drop(exploredCompletePath.indexOf(source)+1)
-    exploredCompletePath --= exploredCompletePath.dropRight(exploredCompletePath.lastIndexOf(source)+1)
-  }
-
-  /**
     * If the DijkstraPath is empty, it returns false. Otherwise, true.
     */
-  private def linkExploredNodeToOriginal: Unit = {
+  private def linkExploredNodeToTarget: Unit = {
     //The head of the exploredNodes is the last node explored which should be linked to the original node.
     val lastExploredNode = randomPath.head
     val endNode = targetNodeId
     val linkingPath = getDijkstraPath(lastExploredNode, endNode).to[ListBuffer]
-    println("   [ modifyPath ][ linkExploredNodeToOriginal ] linkingPath : " + linkingPath)
+    println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
 
-    //Remove the target node(successorNode) already in the exploredCompletePath.
-    //linkingPath -= linkingPath.head
     //Remove the source node(lastExploredNode) already in the exploredNodes.
     linkingPath -= linkingPath.last
 
-    println("   [ modifyPath ][ linkExploredNodeToOriginal ] linkingPath : " + linkingPath)
+    println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
     randomPath.insertAll(0, linkingPath)
-    println("   [ modifyPath ][ linkExploredNodeToOriginal ] randomPath : " + randomPath)
+    println("   [ modifyPath ][ linkExploredNodeToTarget ] randomPath : " + randomPath)
 
     exploredCompletePath ++= randomPath
     //exploredCompletePath.insertAll(exploredCompletePath.indexOf(lastExploredNode), linkingPath)
@@ -86,7 +74,6 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
               */
             if (!neighbour.equals(targetNodeId)
               && existenceTest(neighbour, neighbours)
-              && existenceTest(neighbour, randomPath)
               && existenceTest(neighbour, optimalPath.to[ListBuffer])) neighbours += neighbour
 
         }
