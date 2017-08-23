@@ -31,7 +31,7 @@ object PathWriter extends VariableCleanHelper{
     for (node <- path) {
       pathOut += LatLonModel(MapData.latlon(node).lat, MapData.latlon(node).lon)
     }
-    println("****************************************" + pathOut)
+    //println("****************************************" + pathOut)
     pathOut
   }
 

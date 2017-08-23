@@ -17,11 +17,12 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
   var isExploredNodeAdded = false
 
   def run: List[Int] = {
-    if (depth.equals(0)) optimalPath
-    else {
-      modifyPath
-      exploredCompletePath.toList
-    }
+    /**
+      * If it fails to find a explored path, optimalPath will be returned instead.
+      */
+    modifyPath
+    if (exploredCompletePath.isEmpty) optimalPath
+    else exploredCompletePath.toList
   }
 
   private def modifyPath: Unit = {
@@ -29,8 +30,8 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
     if (isExploredNodeAdded) {
       linkExploredNodeToTarget
     }
-    println(" [ modifyPath ][for loop] exploredCompletePath : " + exploredCompletePath)
-    println(optimalPath)
+    //println(" [ modifyPath ][for loop] exploredCompletePath : " + exploredCompletePath)
+    //println(optimalPath)
   }
 
   /**
@@ -41,14 +42,14 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
     val lastExploredNode = randomPath.head
     val endNode = targetNodeId
     val linkingPath = getDijkstraPath(lastExploredNode, endNode).to[ListBuffer]
-    println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
+    //println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
 
     //Remove the source node(lastExploredNode) already in the exploredNodes.
     linkingPath -= linkingPath.last
 
-    println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
+    //println("   [ modifyPath ][ linkExploredNodeToTarget ] linkingPath : " + linkingPath)
     randomPath.insertAll(0, linkingPath)
-    println("   [ modifyPath ][ linkExploredNodeToTarget ] randomPath : " + randomPath)
+    //println("   [ modifyPath ][ linkExploredNodeToTarget ] randomPath : " + randomPath)
 
     exploredCompletePath ++= randomPath
     //exploredCompletePath.insertAll(exploredCompletePath.indexOf(lastExploredNode), linkingPath)
@@ -62,13 +63,13 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
       * Keep finding the randomly chosen neighbours for the depth number of times.
       */
     for (i <- 1 to depth) {
-      println("   [ modifyPath ][ findNeighbour ][for loop] i : " + i)
-      println("   [ modifyPath ][ findNeighbour ][for loop] startNode : " + startNode)
+      //println("   [ modifyPath ][ findNeighbour ][for loop] i : " + i)
+      //println("   [ modifyPath ][ findNeighbour ][for loop] startNode : " + startNode)
       neighbours.clear()
       node.apply(startNode, 0).foreach_outgoing(
         {
           (neighbour, weight) =>
-            println("   [ modifyPath ][ findNeighbour ][foreach_outgoing] neighbour : " + neighbour)
+            //println("   [ modifyPath ][ findNeighbour ][foreach_outgoing] neighbour : " + neighbour)
             /**
               * This excludes the successor node from the neighbour list and the explored path.
               */
@@ -78,11 +79,11 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
 
         }
       )
-      println("   [ modifyPath ][ findNeighbour ][for loop] neighbours : " + neighbours)
+      //println("   [ modifyPath ][ findNeighbour ][for loop] neighbours : " + neighbours)
       if (!neighbours.isEmpty) {
         val randIndex = scala.util.Random.nextInt(neighbours.size)
         val chosenNeighbour = neighbours(randIndex)
-        println("   [ modifyPath ][ findNeighbour ][for loop] chosenNeighbour : " + chosenNeighbour)
+        //println("   [ modifyPath ][ findNeighbour ][for loop] chosenNeighbour : " + chosenNeighbour)
         randomPath.insert(0, chosenNeighbour)
         isExploredNodeAdded = true
         startNode = chosenNeighbour
@@ -90,7 +91,7 @@ class AlgoExplorer(source: Int, target: Int, depth: Int) {
     }
     //Add the start node to the randomPath
     randomPath += sourceNodeId
-    println("   [ modifyPath ][ findNeighbour ] temporaryPath : " + randomPath)
+    //println("   [ modifyPath ][ findNeighbour ] temporaryPath : " + randomPath)
   }
 
   private def existenceTest(testNode: Int, pathDomain: ListBuffer[Int]): Boolean = {

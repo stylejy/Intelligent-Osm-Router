@@ -66,7 +66,7 @@ class AlgoClassic(source: Int, target: Int, selector: Int) {
       //println()
       //println("----------------------------------------------- Chosen currentNode id: " + currentNode.id)
 
-      if (currentNode.id == target) { //are we already done?
+      if (currentNode.id == target) {
         println("PATH FOUND (searched "+spt.size+" nodes)")
         return
       }

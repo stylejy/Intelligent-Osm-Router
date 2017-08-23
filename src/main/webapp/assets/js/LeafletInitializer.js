@@ -38,7 +38,7 @@ L.Map = L.Map.extend({
 var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors',
     mapBox = L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
         maxZoom: 20,
-        minZoom: 16,
+        minZoom: 14,
         attribution: attribution,
         id: 'mapbox.streets',
         accessToken: 'pk.eyJ1Ijoic3R5bGVqeSIsImEiOiJjajU3NWhzaXUxcjMwMnlseWt2NDRtcGk3In0.Lxh3yrZYpsMnUOmV9Kp50w'}),
@@ -46,7 +46,7 @@ var attribution = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreet
 
 var mymap = new L.Map('leaflet', {
     center: bounds.getCenter(),
-    zoom: 16,
+    zoom: 14,
     layers: [mapBox],
     maxBounds: bounds
 });

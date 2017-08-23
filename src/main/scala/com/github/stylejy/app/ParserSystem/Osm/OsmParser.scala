@@ -34,11 +34,13 @@ object OsmParser extends VariableCleanHelper {
   case class Boundary(minlat: Float, minlon: Float, maxlat: Float, maxlon: Float)
 
   def run = {
+    println("Parser Starting! Please wait a minute if you upload a large map!")
     resetVariable(nodes)
     resetVariable(edges)
     val start = System.currentTimeMillis()
     parse("osmdata/data.osm")
     println(((start-System.currentTimeMillis())/60000)+"min")
+    println("Parsing Done!")
   }
 
   private def parse(osm_file: String) {
@@ -67,14 +69,14 @@ object OsmParser extends VariableCleanHelper {
 
   private def readNodes(xml: Elem) = {
     println("\n -> reading nodes..")
-    println(xml)
+    //println(xml)
     (xml \ "node") foreach { (node) =>
 
       val id = (node\"@id").text.toLong
       val lat = (node\"@lat").text.toFloat
       val lon = (node\"@lon").text.toFloat
       nodes(id) = Node(lat, lon)
-      println("***PARSER*** OSM ID: " + id + " Latitude: " + lat + " Longitude: " + lon)
+      //println("***PARSER*** OSM ID: " + id + " Latitude: " + lat + " Longitude: " + lon)
     }
     println("   ("+nodes.size+") Done.")
   }
@@ -84,36 +86,34 @@ object OsmParser extends VariableCleanHelper {
 
     (xml \ "way") foreach { (way) =>
 
-      val speed = ((way\"tag" filter { (t) => (t\"@k").text == "highway" })
+      val selector = ((way\"tag" filter { (t) => (t\"@k").text == "highway" })
         \ "@v").text match {
-        case "secondary_link" => 30 // km/h
-        case "motorway_link" => 50 // km/h
-        case "living_street" => 30
-        case "unclassified" => 30
-        case "primary_link" => 30
-        case "residential" => 20
-        case "trunk_link" => 30
-        case "secondary" => 60
-        case "motorway" => 90
-        case "tertiary" => 40
-        case "service" => 30
-        case "primary" => 80
-        case "track" => 30
-        case "trunk" => 50
-        case "road" => 50
-        case "path" => 10
-        case "steps" => 0
-        case "footway" => 10
-        //case "cycleway" => 20
-        case "pedestrian" => 10
-        //case (hw:String) if (!hw.equals("")) => println("highway "+hw); 10
+        case "secondary_link" => 1
+        case "living_street" => 1
+        case "unclassified" => 1
+        case "primary_link" => 1
+        case "residential" => 1
+        case "secondary" => 1
+        case "tertiary" => 1
+        case "service" => 1
+        case "primary" => 1
+        case "track" => 1
+        case "road" => 1
+        case "path" => 1
+        case "steps" => 1
+        case "footway" => 1
+        case "pedestrian" => 1
+        case "bridleway" => 1
+        case "trunk" => 1
+        case "trunk_link" => 1
+        case "secondary_link" => 1
+        case "tertiary_link" => 1
         case _ => 0
       }
 
-      if (speed > 0) {
-        println(way\"nd")
+      if (selector > 0) {
         val ids = (way\"nd").map((nd) => ((nd\"@ref").text.toLong))
-        println(way\"nd")
+        //println(way\"nd")
         for ((u,v) <- ids zip ids.tail) {
           edges += Edge(u, v, calculator(u,v))
           edges += Edge(v, u, calculator(v,u))
@@ -127,9 +127,9 @@ object OsmParser extends VariableCleanHelper {
   private def sortEdges = {
     println(" -> sorting edges..")
 
-    println("before edges: " + edges)
+    //println("before edges: " + edges)
     edges = edges.sortWith(_.from < _.from)
-    println("after edges: " + edges)
+    //println("after edges: " + edges)
 
     println("          Done.")
   }
@@ -158,13 +158,13 @@ object OsmParser extends VariableCleanHelper {
         id = e.from
         buildNodeFile
 
-        println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
+        //println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
         osm_id_map(id) = osm_id_map.size
         nodes.get(e.from) match {
           case Some(node) =>
             latlons.writeFloat(node.lat)
             latlons.writeFloat(node.lon)
-            println("id " + id + " Lat and Lon " + node.lat + " " + node.lon)
+            //println("id " + id + " Lat and Lon " + node.lat + " " + node.lon)
           case None =>
         }
       }
@@ -173,13 +173,13 @@ object OsmParser extends VariableCleanHelper {
     }
 
     buildNodeFile
-    println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
-    println("edgeBufferLong original: " + edgeBufferLong)
+    //println("%%%%%%%%%%%%%%%edgeBufferLong.size : "+edgeBufferLong.size)
+    //println("edgeBufferLong original: " + edgeBufferLong)
 
     /** replace osm ids with adjacency array ids */
     edgeBufferInt = edgeBufferLong.map(osm_id_map)
 
-    println("edgeBufferLong replaced with edgeBufferInt: " + edgeBufferInt)
+    //println("edgeBufferLong replaced with edgeBufferInt: " + edgeBufferInt)
 
     //  write edge array to adjacency array file
     edgeBufferInt foreach (edgeOut.writeInt)

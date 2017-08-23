@@ -39,8 +39,9 @@ class AlgoPreferences(lat: Float, lon: Float, source: Int,
         }
       }
     }
+    //Descending order
     sortedPlacesByDist ++= results.sortWith(_._2._2 > _._2._2)
-    println(sortedPlacesByDist)
+    //println(sortedPlacesByDist)
 
     getPath(sortedPlacesByDist)
   }

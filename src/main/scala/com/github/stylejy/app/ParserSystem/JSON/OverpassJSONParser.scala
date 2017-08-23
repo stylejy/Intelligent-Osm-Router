@@ -32,7 +32,8 @@ object OverpassJSONParser extends VariableCleanHelper {
 
   def parseOverpassJson() = {
     println(lat + " " + lon)
-    val overpassJson = parse(scala.io.Source.fromURL("http://overpass-api.de/api/interpreter?data=[out:json];(way(around:50," + lat + "," + lon + ")[\"highway\"~\"^(primary|secondary|tertiary|residential|unclassified|path)$\"];);out;").mkString)
+    val overpassJson = parse(scala.io.Source.fromURL("http://overpass-api.de/api/interpreter?data=[out:json];(way(around:50," + lat + "," + lon + ")[\"highway\"~\"^" +
+      "(primary|secondary|tertiary|residential|unclassified|path|bridleway|pedestrian|footway|steps|road|track|service|primary_link|living_street|trunk_link|trunk|secondary_link|tertiary_link)$\"];);out;").mkString)
     //println(overpassJson)
     val data = overpassJson.extract[GeoJson]
     for(i <- data.elements) {

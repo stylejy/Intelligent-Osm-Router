@@ -140,13 +140,14 @@ class RouterServlet extends IntelligentOsmRouterStack with FileUploadSupport wit
 
       val path = {
         val pref = new AlgoPreferences(sourceLat, sourceLon, sourcePosition, numberOfVisit, maxRadius, shopping, parks, pubs)
+        val start = System.currentTimeMillis()
         val results = pref.run
+        println("Duration : " + (System.currentTimeMillis() - start))
         sortedPlaces = pref.sortedPlacesByDist
         results
       }
 
-      println((System.currentTimeMillis() - start) + "ms  (" + path.size + " nodes)\n")
-      println(PathWriter.writeForPrefs(path))
+      //println(PathWriter.writeForPrefs(path))
       contentType = formats("json")
       PathWriter.writeForPrefs(path)
     }

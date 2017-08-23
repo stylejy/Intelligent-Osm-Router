@@ -66,7 +66,6 @@ function getPath() {
 
                 for (var i in result) {
                     var polyline = L.polyline(result[i], {color: getRandomColour(), opacity: 0.5}).addTo(mymap);
-                    alert(result[i]);
                 }
                 // zoom the map to the polyline
                 mymap.fitBounds(polyline.getBounds());
